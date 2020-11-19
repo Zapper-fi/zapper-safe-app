@@ -1,8 +1,8 @@
 {
-  "short_name": "Safe App",
-  "name": "Gnosis Safe App Starter",
-  "description": "Describe your Safe App here",
-  "iconPath": "logo.svg",
+  "short_name": "Zapper",
+  "name": "Zapper",
+  "description": "Zapper Gnosis Safe App",
+  "iconPath": "logo192.png",
   "icons": [
     {
       "src": "favicon.ico",
