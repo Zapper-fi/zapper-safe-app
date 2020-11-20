@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 
 import { Tab } from '@gnosis.pm/safe-react-components';
+import { Item } from '@gnosis.pm/safe-react-components/dist/navigation/Tab';
 import { IoMdSwap, IoMdTrendingUp } from 'react-icons/io';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const NavigationItem = styled.div`
@@ -14,7 +16,7 @@ const NavigationItem = styled.div`
   }
 `;
 
-const NAVIGATION_ITEMS = [
+const NAVIGATION_ITEMS: Item[] = [
   {
     id: 'exchange',
     label: 'Exchange',
@@ -28,6 +30,7 @@ const NAVIGATION_ITEMS = [
   {
     id: 'invest',
     label: 'Invest',
+    disabled: true,
     customContent: (
       <NavigationItem>
         <IoMdTrendingUp size="1.25em" />
@@ -38,12 +41,20 @@ const NAVIGATION_ITEMS = [
 ];
 
 export const Navigation: React.FC = () => {
-  const [selected, setSelected] = useState('exchange');
+  const location = useLocation();
+  const history = useHistory();
+
+  const selected = location.pathname.replace('/', '') || 'exchange';
+  const setSelected = useCallback(
+    selected => {
+      history.push(`/${selected}`);
+    },
+    [history],
+  );
 
   return (
-    <>
+    <React.Fragment>
       <Tab onChange={setSelected} selectedTab={selected} variant="outlined" items={NAVIGATION_ITEMS} />
-      {selected}
-    </>
+    </React.Fragment>
   );
 };

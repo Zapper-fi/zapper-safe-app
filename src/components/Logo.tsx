@@ -16,6 +16,7 @@ const LogoImg = styled.img`
 `;
 
 const LogoText = styled.span`
+  font-family: 'Avenir Next', Arial, sans-serif;
   font-size: 20px; // h4
   font-weight: 600; // bold
   margin-top: 2px;

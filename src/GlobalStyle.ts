@@ -1,3 +1,5 @@
+import avertaBoldFont from '@gnosis.pm/safe-react-components/dist/fonts/averta-bold.woff2';
+import avertaFont from '@gnosis.pm/safe-react-components/dist/fonts/averta-normal.woff2';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -9,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     margin: 0px;
     padding: 0px;
-    font-family: 'Avenir Next', Arial, sans-serif;
+    font-family: 'Averta', Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -21,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
 
   .MuiFormControl-root,
   .MuiInputBase-root {
-      width: 100% !important;
+    width: 100% !important;
   }
 
   a {
@@ -36,19 +38,26 @@ const GlobalStyle = createGlobalStyle`
 
   @font-face {
     font-family: 'Averta';
+    src: local('Averta'), local('Averta Bold'),
+    url(${avertaFont}) format('woff2'),
+    url(${avertaBoldFont}) format('woff');
+  }
+
+  @font-face {
+    font-family: 'Avenir Next';
     src: url('/fonts/AvenirNext/AvenirNextLTPro-Heavy.otf') format('truetype');
     font-weight: 700;
   }
 
   @font-face {
-    font-family: 'Averta';
+    font-family: 'Avenir Next';
     src: url('/fonts/AvenirNext/AvenirNextLTPro-Bold.otf') format('truetype');
     font-weight: 600;
   }
 
   @font-face {
     font-family: 'Avenir Next';
-    src: url(/fonts/AvenirNext/AvenirNextLTPro-Regular.otf) format('truetype');
+    src: url('/fonts/AvenirNext/AvenirNextLTPro-Regular.otf') format('truetype');
     font-weight: 300;
   }
 `;

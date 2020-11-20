@@ -1,72 +1,27 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 
-import { Button, Loader, Title } from '@gnosis.pm/safe-react-components';
-import { useSafe } from '@rmeissner/safe-apps-react-sdk';
-import styled from 'styled-components';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { Header } from './components/Header';
 import { Navigation } from './components/Navigation';
-
-const Container = styled.form`
-  margin-bottom: 2rem;
-  width: 100%;
-  max-width: 480px;
-
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-column-gap: 1rem;
-  grid-row-gap: 1rem;
-`;
+import { ExchangePage } from './pages/exchange';
+import { InvestPage } from './pages/invest';
 
 const App: React.FC = () => {
-  const safe = useSafe();
-  const [submitting, setSubmitting] = useState(false);
-  const submitTx = useCallback(async () => {
-    setSubmitting(true);
-    try {
-      const safeTxHash = await safe.sendTransactions([
-        {
-          to: safe.info.safeAddress,
-          value: '0',
-          data: '0x',
-        },
-      ]);
-      // eslint-disable-next-line no-console
-      console.log({ safeTxHash });
-      const safeTx = await safe.loadSafeTransaction(safeTxHash);
-      // eslint-disable-next-line no-console
-      console.log({ safeTx });
-    } catch (e) {
-      console.error(e);
-    }
-    setSubmitting(false);
-  }, [safe]);
   return (
     <>
-      <Header />
-      <Navigation />
-      <Container>
-        <Title size="md">{safe.info.safeAddress}</Title>
-        {submitting ? (
-          <>
-            <Loader size="md" />
-            <br />
-            <Button
-              size="lg"
-              color="secondary"
-              onClick={() => {
-                setSubmitting(false);
-              }}
-            >
-              Cancel
-            </Button>
-          </>
-        ) : (
-          <Button size="lg" color="primary" onClick={submitTx}>
-            Submit
-          </Button>
-        )}
-      </Container>
+      <Router>
+        <Header />
+        <Navigation />
+        <Switch>
+          <Route exact path={['/', '/exchange']}>
+            <ExchangePage />
+          </Route>
+          <Route exact path={['/invest']}>
+            <InvestPage />
+          </Route>
+        </Switch>
+      </Router>
     </>
   );
 };
