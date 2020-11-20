@@ -4,6 +4,9 @@ import { Button, Loader, Title } from '@gnosis.pm/safe-react-components';
 import { useSafe } from '@rmeissner/safe-apps-react-sdk';
 import styled from 'styled-components';
 
+import { Header } from './components/Header';
+import { Navigation } from './components/Navigation';
+
 const Container = styled.form`
   margin-bottom: 2rem;
   width: 100%;
@@ -39,28 +42,32 @@ const App: React.FC = () => {
     setSubmitting(false);
   }, [safe]);
   return (
-    <Container>
-      <Title size="md">{safe.info.safeAddress}</Title>
-      {submitting ? (
-        <>
-          <Loader size="md" />
-          <br />
-          <Button
-            size="lg"
-            color="secondary"
-            onClick={() => {
-              setSubmitting(false);
-            }}
-          >
-            Cancel
+    <>
+      <Header />
+      <Navigation />
+      <Container>
+        <Title size="md">{safe.info.safeAddress}</Title>
+        {submitting ? (
+          <>
+            <Loader size="md" />
+            <br />
+            <Button
+              size="lg"
+              color="secondary"
+              onClick={() => {
+                setSubmitting(false);
+              }}
+            >
+              Cancel
+            </Button>
+          </>
+        ) : (
+          <Button size="lg" color="primary" onClick={submitTx}>
+            Submit
           </Button>
-        </>
-      ) : (
-        <Button size="lg" color="primary" onClick={submitTx}>
-          Submit
-        </Button>
-      )}
-    </Container>
+        )}
+      </Container>
+    </>
   );
 };
 

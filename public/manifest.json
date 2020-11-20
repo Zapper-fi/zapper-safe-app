@@ -2,7 +2,7 @@
   "short_name": "Zapper",
   "name": "Zapper",
   "description": "Zapper Gnosis Safe App",
-  "iconPath": "logo192.png",
+  "iconPath": "logo.svg",
   "icons": [
     {
       "src": "favicon.ico",
