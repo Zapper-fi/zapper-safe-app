@@ -1,0 +1,63 @@
+import React, { Dispatch } from 'react';
+
+export enum ModalType {
+  FROM = 'from',
+  TO = 'to',
+}
+
+export enum ExchangeAction {
+  SET_IS_APPROVED = 'SET_IS_APPROVED',
+  SET_QUOTE = 'SET_QUOTE',
+  SET_OPENED_MODAL = 'SET_MODAL',
+  SET_TOKEN_TO_SELL = 'SET_TOKEN_TO_SELL',
+  SET_TOKEN_TO_BUY = 'SET_TOKEN_TO_BUY',
+  SET_TOKEN_TO_SELL_BALANCE = 'SET_TOKEN_TO_SELL_BALANCE',
+  SET_AMOUNT_TO_SELL = 'SET_AMOUNT_TO_SELL',
+}
+
+type ExchangeToken = {
+  address: string;
+  decimals: number;
+  symbol: string;
+};
+
+type Action = { type: ExchangeAction.SET_OPENED_MODAL; payload: ModalType | null };
+
+type ExchangeState = {
+  openedModal: ModalType | null;
+  tokenToSell: ExchangeToken | null;
+  tokenToBuy: ExchangeToken | null;
+};
+
+const initialState: ExchangeState = {
+  openedModal: null,
+  tokenToSell: {
+    address: '0x0000000000000000000000000000000000000000',
+    decimals: 18,
+    symbol: 'ETH',
+  },
+  tokenToBuy: null,
+};
+
+const reducer = (state: ExchangeState, action: Action): ExchangeState => {
+  switch (action.type) {
+    case ExchangeAction.SET_OPENED_MODAL:
+      return { ...state, openedModal: action.payload };
+    default: {
+      return state;
+    }
+  }
+};
+
+export const ExchangeStateContext = React.createContext<ExchangeState>(null as any);
+export const ExchangeDispatchContext = React.createContext<Dispatch<Action>>(null as any);
+
+export const ExchangeProvider: React.FC = ({ children }) => {
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+
+  return (
+    <ExchangeStateContext.Provider value={state}>
+      <ExchangeDispatchContext.Provider value={dispatch}>{children}</ExchangeDispatchContext.Provider>
+    </ExchangeStateContext.Provider>
+  );
+};

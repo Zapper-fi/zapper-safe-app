@@ -57,7 +57,7 @@ export const AddressDisplay: React.FC<Props> = ({ address }) => {
         <ConnectionStatus data-tip="Connected" data-place="bottom" />
       </Identicon>
       <IdenticonAddress>
-        {address.toLowerCase().substring(0, 6)}...${address.toLowerCase().slice(-4)}
+        {address.toLowerCase().substring(0, 6)}...{address.toLowerCase().slice(-4)}
       </IdenticonAddress>
       <ReactTooltip />
     </Container>
