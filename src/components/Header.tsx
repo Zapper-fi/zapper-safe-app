@@ -5,6 +5,7 @@ import Blockies from 'react-blockies';
 import ReactTooltip from 'react-tooltip';
 
 import CurrencyDropdown from './CurrencyDropdown';
+import SettingsDropdown from './SettingsDropdown';
 
 export const Header: React.FC = () => {
   const safe = useSafe();
@@ -12,7 +13,7 @@ export const Header: React.FC = () => {
 
   return (
     <div className="header">
-      <a href="https://zapper.fi" target="_blank">
+      <a href="https://zapper.fi" target="_blank" rel="noopener noreferrer">
         <div className="header_brand">
           <img className="header_brand_logo" src="/logo.svg" alt="Zapper.fi Logo" />
           <span className="header_brand_name">Zapper.fi</span>
@@ -32,6 +33,7 @@ export const Header: React.FC = () => {
       </div>
       <div className="header_right hidden-mobile">
         <CurrencyDropdown />
+        <SettingsDropdown />
       </div>
     </div>
   );

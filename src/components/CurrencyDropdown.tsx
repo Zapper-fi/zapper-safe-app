@@ -5,12 +5,12 @@ import useClickOutside from 'click-outside-hook';
 import { chunk } from 'lodash';
 import { IoMdArrowDropdown } from 'react-icons/io';
 
-import { Currency } from '../context/CurrencyContext';
-import { useCurrency } from '../hooks/useCurrency';
+import { Currency } from '../context/SettingsContext';
+import { useSettings } from '../hooks/useSettings';
 
 const CurrencyDropdown: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { currency, setCurrency } = useCurrency();
+  const { currency, setCurrency } = useSettings();
 
   const handleClickOutside = () => {
     setIsDropdownOpen(false);
