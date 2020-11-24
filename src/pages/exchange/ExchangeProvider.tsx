@@ -21,7 +21,14 @@ type ExchangeToken = {
   symbol: string;
 };
 
-type Action = { type: ExchangeAction.SET_OPENED_MODAL; payload: ModalType | null };
+type Action =
+  // | { type: ExchangeAction.SET_IS_APPROVED; payload: boolean }
+  // | { type: ExchangeAction.SET_QUOTE; payload: { quote: Quote | null; error: Error | null } }
+  | { type: ExchangeAction.SET_OPENED_MODAL; payload: ModalType | null }
+  | { type: ExchangeAction.SET_TOKEN_TO_SELL; payload: ExchangeToken }
+  | { type: ExchangeAction.SET_TOKEN_TO_BUY; payload: ExchangeToken | null };
+// | { type: ExchangeAction.SET_TOKEN_TO_SELL_BALANCE; payload: string }
+// | { type: ExchangeAction.SET_AMOUNT_TO_SELL; payload: string };
 
 type ExchangeState = {
   openedModal: ModalType | null;
@@ -43,6 +50,10 @@ const reducer = (state: ExchangeState, action: Action): ExchangeState => {
   switch (action.type) {
     case ExchangeAction.SET_OPENED_MODAL:
       return { ...state, openedModal: action.payload };
+    case ExchangeAction.SET_TOKEN_TO_SELL:
+      return { ...state, tokenToSell: action.payload };
+    case ExchangeAction.SET_TOKEN_TO_BUY:
+      return { ...state, tokenToBuy: action.payload };
     default: {
       return state;
     }

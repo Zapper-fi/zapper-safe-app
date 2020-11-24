@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { formatBalanceForDisplay, formatDollarForDisplay } from '../../utils/number';
 
-import { ExchangeAction } from './ExchangeProvider';
+import { ExchangeAction, ModalType } from './ExchangeProvider';
 import { useExchangeDispatch } from './hooks/useExchangeDispatch';
 import { Currency, useExchangeRate } from './hooks/useExchangeRate';
 import { useExchangeState } from './hooks/useExchangeState';
@@ -111,6 +111,15 @@ export const SelectTokenModal = () => {
     setSortedByDirection(newSortDirection);
   };
 
+  const onRowClick = (rowId: string) => {
+    const token = exchangeTokens!.find(t => t.symbol === rowId)!;
+    const action = openedModal === ModalType.FROM ? ExchangeAction.SET_TOKEN_TO_SELL : ExchangeAction.SET_TOKEN_TO_BUY;
+
+    // @ts-ignore
+    dispatch({ type: action, payload: token });
+    dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: null });
+  };
+
   if (!openedModal) {
     return null;
   }
@@ -123,10 +132,10 @@ export const SelectTokenModal = () => {
         <Table
           headers={headers}
           rows={rows}
-          //selectedRowIds={selectedRowIds}
           sortedByHeaderId={sortedByHeaderId}
           sortDirection={sortedByDirection}
           onHeaderClick={onHeaderClick}
+          onRowClick={onRowClick}
         />
       }
     />
