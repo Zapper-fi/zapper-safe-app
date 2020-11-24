@@ -4,8 +4,11 @@ import { GenericModal, Table, TableAlignment, TableSortDirection } from '@gnosis
 import { sortBy } from 'lodash';
 import styled from 'styled-components';
 
+import { formatBalanceForDisplay, formatDollarForDisplay } from '../../utils/number';
+
 import { ExchangeAction } from './ExchangeProvider';
 import { useExchangeDispatch } from './hooks/useExchangeDispatch';
+import { Currency, useExchangeRate } from './hooks/useExchangeRate';
 import { useExchangeState } from './hooks/useExchangeState';
 import { useExchangeTokens } from './hooks/useExchangeTokens';
 
@@ -30,6 +33,7 @@ export const SelectTokenModal = () => {
   const dispatch = useExchangeDispatch();
   const { exchangeTokens } = useExchangeTokens();
   const { openedModal } = useExchangeState();
+  const { symbol, rate } = useExchangeRate(Currency.USD);
 
   const [sortedByHeaderId, setSortedByHeaderId] = useState(TableHeader.BALANCE);
   const [sortedByDirection, setSortedByDirection] = useState(TableSortDirection.desc);
@@ -78,11 +82,11 @@ export const SelectTokenModal = () => {
           ),
         },
         {
-          content: <div>{token.balance || ''}</div>,
+          content: <div>{formatBalanceForDisplay(token.balance)}</div>,
           alignment: TableAlignment.right,
         },
         {
-          content: <div>{token.balanceUSD || ''}</div>,
+          content: <div>{formatDollarForDisplay(token.balanceUSD, { symbol, rate })}</div>,
           alignment: TableAlignment.right,
         },
       ],

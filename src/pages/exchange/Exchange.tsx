@@ -42,19 +42,21 @@ const SwapButton = styled.button`
   }
 `;
 
-const TokenImage = styled.img`
-  height: 24px;
-  width: 24px;
-  margin-right: 16px;
-`;
-
-const TokenText = styled.span`
-  font-size: 16px;
-`;
-
 const TokenSelectButton = styled(Button)`
+  display: flex;
+  align-items: center;
   padding-left: 4px !important;
   padding-right: 4px !important;
+
+  img {
+    height: 24px;
+    width: 24px;
+    margin-right: 16px;
+  }
+
+  span {
+    font-size: 16px;
+  }
 `;
 
 const ExchangeButton = styled(Button)`
@@ -83,12 +85,10 @@ export const Exchange: React.FC = () => {
             <TokenSelectButton
               size="md"
               color="primary"
-              onClick={() => dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: ModalType.TO })}
+              onClick={() => dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: ModalType.FROM })}
             >
-              <Grid container direction="row" justify="space-between" alignItems="center">
-                <TokenImage src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`} />
-                <TokenText>{tokenToSell?.symbol}</TokenText>
-              </Grid>
+              <img src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`} />
+              <span>{tokenToSell?.symbol}</span>
             </TokenSelectButton>
           </Grid>
         </Box>
@@ -115,10 +115,8 @@ export const Exchange: React.FC = () => {
               color="primary"
               onClick={() => dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: ModalType.TO })}
             >
-              <Grid container direction="row" justify="space-between" alignItems="center">
-                {tokenToBuy && <TokenImage src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`} />}
-                <TokenText>{tokenToBuy ? tokenToBuy.symbol : 'Select Token'}</TokenText>
-              </Grid>
+              {tokenToBuy && <img src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`} />}
+              <span>{tokenToBuy ? tokenToBuy.symbol : 'Select Token'}</span>
             </TokenSelectButton>
           </Grid>
         </Box>
