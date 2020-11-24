@@ -1,0 +1,531 @@
+.dropdown {
+  position: relative;
+  cursor: default;
+
+  &_tooltip {
+    position: absolute;
+    font-size: $mini;
+    padding: $sm $lg;
+    top: -40px;
+    background: #21262b;
+    color: $background;
+    border-radius: $radius;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  &_warning {
+    background: $warning-light;
+    display: flex;
+    align-items: center;
+    border-radius: $radius;
+    margin-top: $md;
+    padding: $sm;
+
+    &_text {
+      font-size: $p2;
+    }
+
+    .icon {
+      color: $warning;
+      margin-right: $sm;
+    }
+  }
+
+  &_account {
+    margin-left: $xlg;
+
+    &_header {
+      display: flex;
+      align-items: center;
+      padding: 0 $md;
+      height: 50px;
+      transition: $transition;
+      border-radius: $radius;
+      font-weight: $demibold;
+      cursor: pointer;
+
+      @include themed() {
+        background: t('background');
+        color: t('text');
+      }
+
+      .icon {
+        margin-left: $xsm;
+      }
+
+      &:hover {
+        @include themed() {
+          background: t('background-alt');
+        }
+      }
+    }
+
+    .dropdown_list {
+      padding: 0;
+      top: 58px;
+
+      &_title {
+        margin: 0 $lg;
+        font-size: $p2;
+        font-weight: $demibold;
+
+        &:first-child {
+          margin-top: $md;
+        }
+
+        @include themed() {
+          color: t('text-alt');
+        }
+      }
+
+      &_section {
+        @include themed() {
+          border-top: solid 1px t('border');
+        }
+      }
+
+      &_link {
+        display: flex;
+        font-weight: $demibold;
+        align-items: center;
+        padding: $sm;
+        margin: $sm;
+        cursor: pointer;
+        transition: $transition;
+        border-radius: $radius;
+
+        &:hover {
+          @include themed() {
+            background: t('background-alt');
+          }
+        }
+
+        &.manage {
+          .icon_wrapper {
+            border-radius: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            margin-right: $md;
+
+            @include themed() {
+              background: t('background-alt');
+            }
+          }
+        }
+
+        &.no-hover {
+          cursor: default;
+          justify-content: flex-end;
+
+          .flex {
+            align-items: center;
+            flex-basis: auto;
+            flex-grow: 1;
+            justify-content: flex-end;
+          }
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+        &_exit {
+          cursor: pointer;
+          font-size: $p2;
+          display: flex;
+          align-items: center;
+          transition: $transition;
+          line-height: 14px;
+
+          @include themed() {
+            color: t('text-alt');
+          }
+
+          &:hover {
+            opacity: 1;
+            @include themed() {
+              color: $danger;
+            }
+
+            .icon {
+              @include themed() {
+                color: $danger;
+              }
+            }
+          }
+
+          .icon {
+            margin-left: $xsm;
+            @include themed() {
+              color: t('text-alt');
+            }
+          }
+        }
+      }
+
+      &_item {
+        display: flex;
+        align-items: center;
+        padding: 0;
+        border-radius: $radius;
+        margin: $sm;
+
+        &.wallet {
+          cursor: default;
+
+          &:hover {
+            background: transparent;
+          }
+        }
+
+        &_wallet {
+          padding: $sm;
+          display: flex;
+          align-items: center;
+          transition: $transition;
+          cursor: pointer;
+          border-radius: $radius;
+          flex-grow: 1;
+
+          &:hover {
+            @include themed() {
+              background: t('background-alt');
+            }
+          }
+
+          &--disabled {
+            pointer-events: none;
+          }
+        }
+
+        &_end {
+          margin: 0 $sm;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          flex-basis: auto;
+
+          &.link {
+            margin-left: 0;
+          }
+        }
+
+        &_button {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          width: 30px;
+          height: 30px;
+          border-radius: 15px;
+          cursor: pointer;
+          transition: $transition;
+
+          @include themed() {
+            background: t('background');
+            color: t('text');
+            border: solid 1px t('border');
+          }
+
+          .flex {
+            justify-content: center !important;
+          }
+
+          &:hover {
+            @include themed() {
+              background: t('background-alt');
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &_settings {
+    margin-left: 0;
+
+    &_header {
+      display: flex;
+      align-items: center;
+      padding: 0 $md;
+      height: 50px;
+      transition: $transition;
+      border-radius: $radius;
+      font-weight: $demibold;
+      cursor: pointer;
+
+      @include themed() {
+        background: t('background');
+        color: t('text');
+      }
+
+      .icon {
+        margin-left: $xsm;
+      }
+
+      &:hover {
+        @include themed() {
+          background: t('background-alt');
+        }
+      }
+    }
+
+    .dropdown_list {
+      left: inherit;
+      right: 0;
+      top: 58px;
+      padding: $md;
+      min-width: 250px;
+
+      &_title {
+        font-size: $p2;
+        font-weight: $demibold;
+        margin: $sm 0;
+        display: flex;
+        align-items: center;
+
+        @include themed() {
+          color: t('text-alt');
+        }
+
+        &--margin {
+          margin-top: $lg;
+        }
+
+        &_tooltip {
+          margin-left: $xsm;
+
+          .icon {
+            @include themed() {
+              color: t('text-alt');
+            }
+          }
+        }
+      }
+
+      &_control {
+        display: flex;
+        align-items: center;
+        margin-top: $md;
+        padding-top: $md;
+
+        @include themed() {
+          border-top: solid 1px t('border');
+        }
+
+        &_label {
+          font-size: $p2;
+          font-weight: $demibold;
+
+          @include themed() {
+            color: t('text-alt');
+          }
+        }
+
+        &_switch {
+          display: flex;
+          align-items: center;
+          flex-basis: auto;
+          flex-grow: 1;
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+
+  &_locale {
+    &_header {
+      display: flex;
+      align-items: center;
+      max-width: 200px;
+      padding: 0 $md;
+      height: 50px;
+      transition: $transition;
+      border-radius: $radius;
+      font-weight: $demibold;
+      cursor: pointer;
+
+      @include themed() {
+        background: t('background');
+        color: t('text');
+      }
+
+      .icon {
+        margin-left: $sm;
+      }
+
+      &:hover {
+        @include themed() {
+          background: t('background-alt');
+        }
+      }
+    }
+
+    .dropdown_list {
+      left: inherit;
+      top: inherit;
+      left: 0;
+      bottom: 100%;
+    }
+  }
+
+  &_currency {
+    &_header {
+      display: flex;
+      align-items: center;
+      margin-left: $lg;
+      max-width: 200px;
+      padding: 0 $md;
+      height: 50px;
+      transition: $transition;
+      border-radius: $radius;
+      font-weight: $demibold;
+      cursor: pointer;
+
+      @include themed() {
+        background: t('background');
+        color: t('text');
+      }
+
+      .icon {
+        margin-left: $sm;
+      }
+
+      &:hover {
+        @include themed() {
+          background: t('background-alt');
+        }
+      }
+    }
+
+    .dropdown_list {
+      left: inherit;
+      top: 58px;
+      right: 0;
+    }
+  }
+
+  &_list {
+    position: absolute;
+    z-index: 99;
+    border-radius: $radius;
+    left: 0;
+    padding: $sm;
+    min-width: 200px;
+
+    &_row {
+      flex-flow: inherit;
+      margin: 0;
+    }
+
+    @include themed() {
+      color: t('text');
+      background: t('background');
+      box-shadow: t('shadow');
+    }
+
+    &_item {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: $md $lg;
+      border-radius: $radius;
+      font-weight: $demibold;
+      transition: $transition;
+
+      &--disabled {
+        font-weight: $medium;
+
+        @include themed() {
+          color: t('text-alt');
+        }
+
+        &:hover {
+          background: transparent !important;
+        }
+      }
+
+      &:hover {
+        opacity: 1;
+        @include themed() {
+          background: t('background-alt');
+        }
+      }
+
+      img {
+        width: 25px;
+        height: 25px;
+        margin-right: $sm;
+
+        &.currency_icon {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    &_empty {
+      text-align: center;
+      padding: $lg $xlg;
+
+      img {
+        width: 150px;
+        margin: auto;
+      }
+
+      p {
+        margin: $xlg 0 0;
+        font-size: 18px;
+        font-weight: $demibold;
+      }
+    }
+  }
+}
+
+.currency_icon {
+  width: 20px;
+  height: 20px;
+  margin-right: $sm;
+}
+
+@media (max-width: 600px) {
+  .dropdown {
+    position: initial;
+
+    &_account {
+      margin-left: 0;
+
+      .dropdown_list {
+        width: 100%;
+        left: 0;
+      }
+    }
+
+    &_currency {
+      .dropdown_list {
+        left: 16px;
+        width: calc(100% - 48px);
+        top: inherit;
+      }
+    }
+
+    &_list {
+      width: calc(100% - 16px);
+      left: 0;
+
+      .row {
+        display: flex;
+      }
+
+      .column {
+        margin-bottom: 0;
+        flex: 1;
+        max-width: 50%;
+      }
+    }
+  }
+}

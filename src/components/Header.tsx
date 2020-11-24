@@ -4,6 +4,8 @@ import { useSafe } from '@rmeissner/safe-apps-react-sdk';
 import Blockies from 'react-blockies';
 import ReactTooltip from 'react-tooltip';
 
+import CurrencyDropdown from './CurrencyDropdown';
+
 export const Header: React.FC = () => {
   const safe = useSafe();
   const { safeAddress } = safe.info;
@@ -28,8 +30,9 @@ export const Header: React.FC = () => {
           <ReactTooltip />
         </div>
       </div>
-      {/* Currency Picker */}
-      {/* Settings */}
+      <div className="header_right hidden-mobile">
+        <CurrencyDropdown />
+      </div>
     </div>
   );
 };

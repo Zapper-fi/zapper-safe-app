@@ -3916,6 +3916,11 @@ cli-width@^3.0.0:
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
   integrity sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==
 
+click-outside-hook@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/click-outside-hook/-/click-outside-hook-1.1.0.tgz#e952e87a92f547656f73f4a35f80054b2cf60cf1"
+  integrity sha512-8dxMfMGpqR0/kMEOr5xS0460tTRQnp8Y2VXTV6yGDe+fF34fkCy05kPP2QiCdukcp18J+47qHKj3qBKGAEpNsw==
+
 cliui@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-5.0.0.tgz#deefcfdb2e800784aa34f46fa08e06851c7bbbc5"
