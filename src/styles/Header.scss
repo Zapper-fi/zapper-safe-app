@@ -1,0 +1,214 @@
+.header {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &_home {
+    font-weight: $demibold;
+
+    a {
+      margin: 0 $lg;
+
+      @include themed() {
+        color: t('text');
+      }
+
+      &:hover {
+      }
+    }
+  }
+
+  &_brand {
+    display: flex;
+    align-items: center;
+
+    &_logo {
+      margin-right: $md;
+      height: 32px;
+    }
+
+    &_icon {
+      width: 30px;
+      height: 30px;
+      margin-right: $md;
+    }
+
+    &_name {
+      font-family: 'Avenir Next', Arial, sans-serif;
+      font-size: $h4;
+      font-weight: $bold;
+      margin-top: 2px;
+
+      &--sub {
+        font-weight: $demibold;
+      }
+    }
+
+    &_back {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      height: 40px;
+      width: 40px;
+      border-radius: 20px;
+      margin-right: $md;
+      transition: $transition;
+
+      .icon {
+        @include themed() {
+          color: t('text');
+        }
+      }
+
+      &:hover {
+        @include themed() {
+          background: t('background-alt');
+        }
+      }
+    }
+  }
+
+  &_right {
+    display: flex;
+    align-items: center;
+    flex-basis: auto;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+
+  &_exit {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin-left: $lg;
+    font-weight: $demibold;
+    cursor: pointer;
+    transition: $transition;
+
+    &:hover {
+      opacity: $opacity;
+    }
+
+    .icon {
+      margin-left: $xsm;
+    }
+  }
+}
+
+.identicon {
+  display: flex;
+  align-items: center;
+  margin-left: $xlg;
+  max-width: 200px;
+  padding: 0 $md;
+  height: 40px;
+  transition: $transition;
+  border-radius: $radius;
+  cursor: pointer;
+
+  @include themed() {
+    background: t('background-alt');
+    color: t('text');
+    border: solid 1px t('border');
+  }
+
+  &_bundled {
+    height: 32px;
+    width: 32px;
+    border-radius: 100%;
+    margin-right: $md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include themed() {
+      background: t('background-alt');
+      color: t('text');
+    }
+
+    span {
+      font-weight: $demibold;
+      margin-top: 4px;
+    }
+  }
+
+  &_image {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &_blockie {
+    border-radius: 50%;
+    margin-right: $md;
+  }
+
+  &_address {
+    font-weight: $demibold;
+    max-width: 175px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 75px;
+  }
+
+  &_connection {
+    position: absolute;
+    bottom: 2px;
+    right: $md;
+    width: 8px;
+    height: 8px;
+    border-radius: 5px;
+    background: $success;
+    &_active {
+      background: $success;
+    }
+    &_inactive {
+      background: $warning;
+    }
+  }
+
+  .icon {
+    margin-left: $md;
+  }
+
+  &:hover {
+    opacity: $opacity;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    height: 50px;
+    margin: $sm 0;
+
+    &_exit {
+      margin-left: $sm;
+    }
+
+    .dropdown_account {
+      display: flex;
+      flex-basis: auto;
+      flex-grow: 1;
+      justify-content: flex-end;
+    }
+  }
+
+  .header_brand {
+    &_name {
+      display: none;
+    }
+  }
+
+  .identicon {
+    margin-left: 0;
+  }
+
+  .home {
+    .header_brand {
+      display: flex;
+    }
+  }
+}
