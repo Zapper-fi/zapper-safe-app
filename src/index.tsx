@@ -8,13 +8,11 @@ import { IconContext } from 'react-icons';
 import { ThemeProvider } from 'styled-components';
 
 import App from './App';
-import GlobalStyle from './GlobalStyle';
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <IconContext.Provider value={{}}>
-        <GlobalStyle />
         <SafeProvider
           loading={
             <>

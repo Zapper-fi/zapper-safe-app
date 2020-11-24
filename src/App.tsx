@@ -7,6 +7,8 @@ import { Navigation } from './components/Navigation';
 import { ExchangePage } from './pages/exchange';
 import { InvestPage } from './pages/invest';
 
+import './styles/app.scss';
+
 const App: React.FC = () => {
   return (
     <>

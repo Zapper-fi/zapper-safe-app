@@ -1,0 +1,563 @@
+body {
+  margin: 0;
+  font-family: 'Averta', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.background {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+
+  @include themed() {
+    background: t('background');
+  }
+}
+
+.app {
+  @include themed() {
+    color: t('text');
+  }
+}
+
+.container {
+  width: 100%;
+  padding: 0 $lg;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &.centered {
+    text-align: center;
+    margin-bottom: $xlg;
+
+    img {
+      margin-top: $xlg;
+    }
+
+    .button {
+      display: inline-flex;
+      margin: $lg 0;
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  transition: 0.3s;
+  color: inherit;
+
+  &:hover {
+    opacity: $opacity;
+  }
+}
+
+.icon {
+  transition: $transition;
+
+  &--green {
+    background: $success-light;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    display: flex;
+    border-radius: 16px;
+    justify-content: center;
+
+    .icon {
+      @include themed() {
+        color: $success;
+      }
+    }
+  }
+
+  &--yellow {
+    background: $warning-light;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    display: flex;
+    border-radius: 16px;
+    justify-content: center;
+    margin-right: $sm;
+
+    .icon {
+      @include themed() {
+        color: $warning;
+      }
+    }
+  }
+
+  @include themed() {
+    color: t('text');
+  }
+
+  &--accent {
+    @include themed() {
+      color: $success;
+    }
+  }
+}
+
+.text-alt {
+  @include themed() {
+    color: t('text-alt');
+    font-size: $p2;
+  }
+}
+
+.left {
+  text-align: left !important;
+}
+
+.right {
+  text-align: left !important;
+}
+
+.text-link {
+  font-weight: $demibold;
+  text-decoration: underline;
+
+  @include themed() {
+    color: t('accent');
+  }
+}
+
+form {
+  display: flex;
+}
+
+.input {
+  box-sizing: border-box;
+  height: 54px;
+  border-radius: $radius;
+  outline: 0;
+  transition: $transition;
+  padding: $md $lg;
+  font-size: $p;
+  font-family: 'Avenir Next';
+
+  &_slippage {
+    min-width: 90px;
+  }
+
+  &--max {
+    width: 100%;
+  }
+
+  @include themed() {
+    background: t('background-alt');
+    border: solid 1px t('border');
+    color: t('text');
+  }
+
+  &--invalid {
+    border: solid 1px $danger !important;
+  }
+
+  &--active {
+    @include themed() {
+      border: solid 1px $main;
+    }
+  }
+
+  &::placeholder {
+    @include themed() {
+      color: t('text-alt');
+    }
+  }
+
+  &:focus {
+    border: solid 1px $main;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+
+    &:focus {
+      @include themed() {
+        border: solid 2px t('background-alt');
+      }
+    }
+  }
+
+  &--invalid {
+    &:focus {
+      border: solid 2px $danger;
+    }
+  }
+}
+
+.accent_color {
+  font-size: 48px;
+  font-weight: $bold;
+  background: $main-gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tLogo {
+  position: relative;
+  display: flex;
+
+  &_group {
+    display: flex;
+
+    img:first-child {
+      z-index: 1;
+    }
+
+    img:last-child {
+      margin-left: -$xlg;
+    }
+  }
+}
+
+.tExtra {
+  position: absolute;
+  right: -7px;
+  top: -7px;
+  width: 17.5px;
+  height: 17.5px;
+  z-index: 2;
+}
+
+.row {
+  display: flex;
+  flex-flow: wrap;
+  margin-bottom: $xlg;
+
+  &--no-flex {
+    display: block;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: $lg;
+  margin-bottom: $xlg;
+
+  &--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.column {
+  flex: 1;
+  max-width: 50%;
+  margin-right: $lg;
+
+  &--2 {
+    flex: 2;
+    max-width: initial;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+/* Dashboard Styles */
+.summary {
+  text-align: center;
+  padding: $xlg;
+  border-radius: $radius;
+
+  &--column {
+    margin-bottom: $lg;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @include themed() {
+    background: t('background-alt');
+  }
+
+  &_title {
+    font-size: $h3;
+    font-weight: $demibold;
+  }
+
+  &_subtitle {
+    font-size: $p;
+    margin-bottom: $sm;
+
+    @include themed() {
+      color: t('text-alt');
+    }
+  }
+}
+
+.__react_component_tooltip {
+  background: #21262b !important;
+  border-radius: $radius !important;
+  font-weight: $demibold;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+
+  &-end {
+    justify-content: flex-end;
+  }
+
+  &-max {
+    flex: 1;
+  }
+
+  &--top {
+    align-items: flex-start;
+  }
+
+  .curve_icon {
+    background: $background;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 12.5px;
+    margin-right: $md;
+  }
+
+  &--right {
+    justify-content: flex-end;
+  }
+}
+
+.text {
+  &--success {
+    color: $success;
+  }
+
+  &--danger {
+    color: $danger;
+  }
+}
+
+.circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin-right: $sm;
+
+  &--green {
+    background: $success;
+  }
+
+  &--red {
+    background: $danger;
+  }
+}
+
+.green {
+  color: $success;
+}
+
+.red {
+  color: $danger;
+}
+
+.wall {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: $lg;
+  margin: 40px 0;
+
+  &_item {
+    border-radius: $radius;
+    padding: $lg;
+    margin-bottom: $lg;
+    min-width: 200px;
+    text-align: center;
+
+    @include themed() {
+      border: solid 1px t('border');
+      background: t('background-alt');
+    }
+
+    img {
+      margin: 0 auto $lg auto;
+      display: block;
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+      box-sizing: border-box;
+    }
+  }
+}
+
+.footnote {
+  font-size: $mini;
+}
+
+.hidden-desktop {
+  display: none !important;
+}
+
+.hidden-mobile-up {
+  display: none !important;
+}
+
+@media (max-width: 992px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: $lg;
+
+    &--3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .summary {
+    margin-top: $lg;
+    padding: 0;
+    text-align: left;
+
+    &_title {
+      font-size: $h2;
+    }
+
+    @include themed() {
+      background: transparent;
+    }
+  }
+
+  .footer {
+    display: none;
+  }
+
+  .hidden-mobile {
+    display: none !important;
+  }
+
+  .hidden-desktop {
+    display: initial !important;
+  }
+
+  form {
+    display: block;
+
+    .button {
+      width: 100%;
+      margin-bottom: $lg;
+    }
+  }
+
+  .row {
+    display: block;
+    margin-left: 0;
+    margin-bottom: $lg;
+  }
+
+  .grid {
+    margin-bottom: $lg;
+  }
+
+  .column {
+    margin: 0 0 $lg 0;
+    max-width: 100%;
+
+    &_grid {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: $lg;
+  }
+
+  .summary {
+    margin-bottom: 0;
+
+    &--column {
+      margin-bottom: $lg;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .hidden-mobile-up {
+    display: initial !important;
+  }
+}
+
+/* Spacing: 50, 30, 20, 16, 8, 4, 2 */
+$spacing-sides: (
+  top: t,
+  bottom: b,
+  left: l,
+  right: r,
+);
+$spacing-sizes: (
+  0: '2px',
+  1: '4px',
+  2: '8px',
+  3: '16px',
+  4: '20px',
+  5: '30px',
+  6: '50px',
+);
+
+/* Margin: generate my-[0,6] */
+@each $szlabel, $szval in $spacing-sizes {
+  .my-#{$szlabel} {
+    margin-top: #{$szval} !important;
+    margin-bottom: #{$szval} !important;
+  }
+
+  .mx-#{$szlabel} {
+    margin-left: #{$szval} !important;
+    margin-right: #{$szval} !important;
+  }
+}
+/* Margin: generate m[l,r,t,b]-[0,6] */
+@each $side, $sidelabel in $spacing-sides {
+  @each $szlabel, $szval in $spacing-sizes {
+    .m#{$sidelabel}-#{$szlabel} {
+      margin-#{$side}: #{$szval} !important;
+    }
+  }
+}
+
+/* Useful to push elements in flex layouts */
+.ml-auto {
+  margin-left: auto !important;
+}
+.mr-auto {
+  margin-right: auto !important;
+}
+
+/* Padding: generate py-[0,6] */
+@each $szlabel, $szval in $spacing-sizes {
+  .py-#{$szlabel} {
+    padding-top: #{$szval} !important;
+    padding-bottom: #{$szval} !important;
+  }
+
+  .px-#{$szlabel} {
+    padding-left: #{$szval} !important;
+    padding-right: #{$szval} !important;
+  }
+}
+/* Padding: generate p[l,r,t,b]-[0,6] */
+@each $side, $sidelabel in $spacing-sides {
+  @each $szlabel, $szval in $spacing-sizes {
+    .p#{$sidelabel}-#{$szlabel} {
+      padding-#{$side}: #{$szval} !important;
+    }
+  }
+}

@@ -1,0 +1,102 @@
+/* Font-Sizes */
+$h1: 36px;
+$h2: 30px;
+$h3: 24px;
+$h4: 20px;
+$h5: 18px;
+$p: 16px;
+$p2: 14px;
+$mini: 12px;
+
+$black: 700;
+$bold: 600;
+$demibold: 500;
+$medium: 400;
+$regular: 300;
+
+$button-border-thin: 1px;
+
+/* Colors */
+$white: #fff;
+$main: #784ffe;
+$main-light: rgba(120, 79, 254, 0.15);
+$main-alt: #a160fe;
+$text: #002237;
+$text-alt: #657795;
+$border: #dfe8f9;
+$background-alt: #f0f5f9;
+$background: $white;
+$modal-overlay: rgba(33, 38, 43, 0.75);
+$alert-color: #fc6dab;
+$main-gradient: linear-gradient(135deg, $main 0%, $main-alt 100%);
+$success: #00d897;
+$success-light: rgba(0, 216, 151, 0.15);
+$danger: #f1356e;
+$danger-light: rgba(241, 53, 110, 0.15);
+$exchange: #009fff;
+$exchange-light: rgba(0, 159, 255, 0.15);
+$warning: #ffbe0b;
+$warning-light: rgba(255, 190, 11, 0.15);
+
+$shadow: 0 2px 8px rgba(0, 34, 55, 0.1);
+$main-shadow: 0 2px 12px rgba(120, 79, 254, 0.25);
+$main-shadow-focus: 0 2px 16px rgba(120, 79, 254, 0.5);
+$shadow-focus: 0 2px 8px rgba(0, 34, 55, 0.2);
+
+/* Other */
+$radius: 4px;
+$opacity: 0.6;
+$transition: 0.3s;
+
+/*Spacing*/
+$xsm: 4px;
+$sm: 8px;
+$md: 12px;
+$lg: 16px;
+$xlg: 32px;
+
+$themes: (
+  light: (
+    background: $background,
+    background-alt: $background-alt,
+    banner-shadow: $shadow,
+    text: $text,
+    text-alt: $text-alt,
+    border: $border,
+    accent: $main,
+    shadow: $shadow,
+  ),
+  dark: (
+    background: #141a1e,
+    background-alt: #21262b,
+    banner-shadow: 0 2px 16px rgba(245, 251, 255, 0.15),
+    text: $background,
+    text-alt: #9cabbb,
+    border: #2d3237,
+    accent: $background,
+    shadow: 0 2px 8px rgba(245, 251, 255, 0.1),
+  ),
+);
+
+@mixin themed() {
+  @each $theme, $map in $themes {
+    .theme--#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function t($key) {
+  @return map-get($theme-map, $key);
+}

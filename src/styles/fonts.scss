@@ -1,0 +1,101 @@
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(/fonts/AvenirNext/AvenirNextLTPro-Heavy.otf) format('truetype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(/fonts/AvenirNext/AvenirNextLTPro-Bold.otf) format('truetype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(/fonts/AvenirNext/AvenirNextLTPro-BoldItalic.otf) format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(/fonts/AvenirNext/AvenirNextLTPro-Demi.otf) format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(/fonts/AvenirNext/AvenirNextLTPro-DemiIt.otf) format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(/fonts/AvenirNext/AvenirNextLTPro-Medium.otf) format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(/fonts/AvenirNext/AvenirNextLTPro-MediumItalic.otf) format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(/fonts/AvenirNext/AvenirNextLTPro-Regular.otf) format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(/fonts/AvenirNext/AvenirNextLTPro-It.otf) format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Averta';
+  src: local('Averta'), local('Averta Bold'), url('/fonts/Averta/averta-normal.woff2') format('woff2'),
+    url('/fonts/Averta/averta-bold.woff2') format('woff');
+}
+
+h1 {
+  font-size: $h1;
+  font-weight: $bold;
+}
+
+h2 {
+  font-size: $h2;
+  font-weight: $demibold;
+}
+
+h3 {
+  font-size: $h3;
+  font-weight: $medium;
+}
+
+h4 {
+  font-size: $h4;
+  font-weight: $medium;
+}
+
+h5 {
+  font-size: $p;
+  font-weight: $demibold;
+  margin-bottom: $md;
+}
+
+p {
+  font-size: $p;
+}
+
+.bold {
+  font-weight: $bold;
+}
+
+.demibold {
+  font-weight: $demibold;
+}
