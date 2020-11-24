@@ -1,0 +1,338 @@
+.exchange {
+  width: 100%;
+  margin: $xlg 0;
+
+  &_modal {
+    max-width: 600px;
+    height: 600px;
+    margin: auto;
+
+    .table {
+      overflow: auto;
+      height: 600px;
+    }
+  }
+
+  &_swap {
+    background: $main;
+    font-family: 'Avenir Next';
+    font-size: $p;
+    font-weight: $demibold;
+    border: none;
+    border-radius: 100%;
+    outline: none;
+    transition: 0.3s;
+    padding: $sm;
+    cursor: pointer;
+    white-space: nowrap;
+    color: $background;
+    box-shadow: $main-shadow;
+
+    &:hover {
+      box-shadow: $main-shadow-focus;
+    }
+
+    .icon {
+      color: $background;
+    }
+  }
+
+  &_card {
+    margin: auto;
+    max-width: 500px;
+    border-radius: $radius;
+
+    @include themed() {
+      box-shadow: t('shadow');
+    }
+
+    &_input {
+      width: 50%;
+
+      ::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .input {
+        width: 100%;
+        font-size: $h2;
+        font-weight: $demibold;
+        box-sizing: border-box;
+        height: 60px;
+        padding: 0px;
+        text-align: right;
+        background: transparent;
+        border: none;
+
+        &--invalid {
+          color: $danger;
+
+          border: none !important;
+        }
+
+        &:not(:focus) {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+      }
+    }
+
+    &_select {
+      display: flex;
+      width: 50%;
+      align-items: center;
+
+      .dropdown {
+        position: relative;
+        cursor: default;
+        &_exchange {
+          &_header {
+            display: flex;
+            white-space: nowrap;
+            align-items: center;
+            padding: 0 $md;
+            font-size: $h4;
+            height: 54px;
+            transition: $transition;
+            border-radius: $radius;
+            font-weight: $demibold;
+            cursor: pointer;
+
+            @include themed() {
+              background: t('background');
+              color: t('text');
+            }
+
+            &:hover {
+              @include themed() {
+                background: t('background-alt');
+              }
+            }
+
+            .icon {
+              margin-left: $sm;
+            }
+          }
+
+          &_icon {
+            width: 30px;
+            height: 30px;
+            margin-right: $md;
+          }
+        }
+      }
+    }
+
+    &_section {
+      padding: $lg;
+    }
+
+    &_top {
+      @include themed() {
+        border-bottom: solid 1px t('border');
+      }
+    }
+
+    &_middle {
+      padding: $sm $lg;
+
+      @include themed() {
+        border-bottom: solid 1px t('border');
+      }
+    }
+
+    &_row {
+      display: flex;
+      align-items: center;
+      font-size: $p2;
+
+      @include themed() {
+        color: t('text-alt');
+      }
+
+      &--right {
+        display: flex;
+        align-items: center;
+        flex-basis: auto;
+        flex-grow: 1;
+        justify-content: flex-end;
+      }
+    }
+
+    &_link {
+      cursor: pointer;
+    }
+
+    &_max {
+      transition: 0.3s;
+      cursor: pointer;
+      color: white;
+      background: $main-light;
+      font-size: $p2;
+      text-transform: uppercase;
+      font-weight: $demibold;
+      color: $main;
+      padding: $sm;
+      border-radius: $radius;
+      display: flex;
+      align-items: center;
+      margin-left: $md;
+    }
+
+    &_title {
+      font-size: $p;
+
+      @include themed() {
+        color: t('text-alt');
+      }
+    }
+
+    &_button {
+      padding: $lg;
+
+      @include themed() {
+        border-top: solid 1px t('border');
+      }
+
+      .button {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+      }
+    }
+  }
+
+  &_transaction-settings {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    &_title {
+      font-size: $p2;
+      margin-bottom: $md;
+      font-weight: $demibold;
+
+      @include themed() {
+        color: t('text-alt');
+      }
+    }
+
+    &_cog {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .dropdown_settings {
+      &_header {
+        background: none;
+        height: 1em;
+        padding: 0;
+        transition: $transition;
+
+        &:hover {
+          opacity: $opacity;
+
+          @include themed() {
+          }
+        }
+
+        .icon {
+          height: 1em;
+
+          @include themed() {
+            color: t('text-alt');
+          }
+        }
+      }
+
+      .dropdown_list {
+        top: $xlg;
+      }
+    }
+  }
+
+  &_route {
+    margin: $lg auto;
+    box-sizing: border-box;
+    padding: $lg;
+    max-width: 500px;
+    border-radius: $radius;
+    font-size: $p2;
+
+    &_title {
+      margin-bottom: $lg;
+
+      @include themed() {
+        color: t('text-alt');
+      }
+    }
+
+    @include themed() {
+      background: t('background-alt');
+    }
+
+    &_item {
+      display: flex;
+      align-items: center;
+      margin: $sm 0;
+      font-size: $p2;
+
+      img {
+        width: 25px;
+        margin-right: $sm;
+      }
+
+      &_hop {
+        margin-right: $md;
+        display: flex;
+        align-items: center;
+        font-weight: $demibold;
+
+        &:first-child:after {
+          margin-left: $md;
+          content: '>';
+        }
+      }
+
+      &_fee {
+        display: flex;
+        align-items: center;
+        flex-basis: auto;
+        flex-grow: 1;
+        justify-content: flex-end;
+      }
+    }
+
+    &_stat {
+      display: flex;
+      align-items: center;
+      margin-top: $lg;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &--left {
+        @include themed() {
+          color: t('text-alt');
+        }
+      }
+
+      &--right {
+        font-weight: $demibold;
+        display: flex;
+        align-items: center;
+        flex-basis: auto;
+        flex-grow: 1;
+        justify-content: flex-end;
+
+        @include themed() {
+          color: t('text');
+        }
+      }
+    }
+  }
+}

@@ -317,6 +317,14 @@ form {
     align-items: flex-start;
   }
 
+  &-baseline {
+    align-items: baseline;
+  }
+
+  &-between {
+    justify-content: space-between;
+  }
+
   .curve_icon {
     background: $background;
     width: 25px;
