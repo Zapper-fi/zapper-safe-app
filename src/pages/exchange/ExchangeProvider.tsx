@@ -1,5 +1,7 @@
 import React, { Dispatch } from 'react';
 
+import { ExchangeToken } from './hooks/useExchangeTokens';
+
 export enum ModalType {
   FROM = 'from',
   TO = 'to',
@@ -14,12 +16,6 @@ export enum ExchangeAction {
   SET_TOKEN_TO_SELL_BALANCE = 'SET_TOKEN_TO_SELL_BALANCE',
   SET_AMOUNT_TO_SELL = 'SET_AMOUNT_TO_SELL',
 }
-
-type ExchangeToken = {
-  address: string;
-  decimals: number;
-  symbol: string;
-};
 
 type Action =
   // | { type: ExchangeAction.SET_IS_APPROVED; payload: boolean }
@@ -40,7 +36,11 @@ const initialState: ExchangeState = {
   openedModal: null,
   tokenToSell: {
     address: '0x0000000000000000000000000000000000000000',
+    balance: 0,
+    balanceRaw: '0',
+    balanceUSD: 0,
     decimals: 18,
+    img: 'https://zapper.fi/images/ETH-icon.png',
     symbol: 'ETH',
   },
   tokenToBuy: null,

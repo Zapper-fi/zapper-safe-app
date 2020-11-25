@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Card, Text, Button, Divider } from '@gnosis.pm/safe-react-components';
 import { MdSwapVert } from 'react-icons/md';
@@ -9,6 +9,7 @@ import { Page } from '../../components/Page';
 import { ExchangeAction, ModalType } from './ExchangeProvider';
 import { useExchangeDispatch } from './hooks/useExchangeDispatch';
 import { useExchangeState } from './hooks/useExchangeState';
+import { useExchangeTokens } from './hooks/useExchangeTokens';
 import { SelectTokenModal } from './SelectTokenModal';
 
 const TokenSelectButton = styled(Button)`
@@ -30,7 +31,22 @@ const TokenSelectButton = styled(Button)`
 
 export const Exchange: React.FC = () => {
   const { tokenToSell, tokenToBuy } = useExchangeState();
+  const { exchangeTokens } = useExchangeTokens();
   const dispatch = useExchangeDispatch();
+
+  useEffect(() => {
+    if (exchangeTokens) {
+      const ethToken = exchangeTokens!.find(t => t.symbol === 'ETH')!;
+      dispatch({ type: ExchangeAction.SET_TOKEN_TO_SELL, payload: ethToken });
+    }
+  }, [exchangeTokens, dispatch]);
+
+  const handleSwitchToAndFromTokens = () => {
+    if (tokenToBuy) {
+      dispatch({ type: ExchangeAction.SET_TOKEN_TO_SELL, payload: tokenToBuy });
+      dispatch({ type: ExchangeAction.SET_TOKEN_TO_BUY, payload: tokenToSell });
+    }
+  };
 
   return (
     <Page>
@@ -41,7 +57,7 @@ export const Exchange: React.FC = () => {
               From
             </Text>
             <Text size="lg" color="secondaryHover">
-              Balance: 0
+              Balance: {tokenToSell?.balance}
             </Text>
           </div>
           <div className="py-2 flex flex-baseline flex-between">
@@ -56,7 +72,7 @@ export const Exchange: React.FC = () => {
           </div>
           <Divider />
           <div className="py-2">
-            <button className="exchange_swap">
+            <button className="exchange_swap" onClick={handleSwitchToAndFromTokens}>
               <div className="icon">
                 <div className="flex flex-center">
                   <MdSwapVert size="1.5em" />
@@ -79,7 +95,7 @@ export const Exchange: React.FC = () => {
                 color="primary"
                 onClick={() => dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: ModalType.TO })}
               >
-                {tokenToBuy && <img src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`} />}
+                {tokenToBuy && <img src={`https://zapper.fi/images/${tokenToBuy?.symbol}-icon.png`} />}
                 <span>{tokenToBuy ? tokenToBuy.symbol : 'Select Token'}</span>
               </TokenSelectButton>
             </div>

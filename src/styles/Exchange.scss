@@ -3,13 +3,25 @@
   margin: $xlg 0;
 
   &_modal {
-    max-width: 600px;
-    height: 600px;
-    margin: auto;
+    .MuiFormControl-root {
+      width: 100% !important;
+
+      .MuiFilledInput-root {
+        background-color: transparent !important;
+      }
+    }
 
     .table {
       overflow: auto;
       height: 600px;
+    }
+
+    .MuiTableContainer-root {
+      box-shadow: none !important;
+
+      .MuiTableRow-hover {
+        cursor: pointer;
+      }
     }
   }
 

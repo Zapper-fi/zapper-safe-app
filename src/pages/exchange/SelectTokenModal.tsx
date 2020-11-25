@@ -1,6 +1,13 @@
 import React, { useMemo, useState } from 'react';
 
-import { GenericModal, Table, TableAlignment, TableSortDirection } from '@gnosis.pm/safe-react-components';
+import {
+  GenericModal,
+  Table,
+  TableAlignment,
+  TableSortDirection,
+  TextField,
+  Icon,
+} from '@gnosis.pm/safe-react-components';
 import { sortBy } from 'lodash';
 import styled from 'styled-components';
 
@@ -18,11 +25,6 @@ enum TableHeader {
   VALUE = 'value',
 }
 
-const TokenSymbolContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const TokenImage = styled.img`
   height: 24px;
   width: 24px;
@@ -37,6 +39,7 @@ export const SelectTokenModal = () => {
 
   const [sortedByHeaderId, setSortedByHeaderId] = useState(TableHeader.BALANCE);
   const [sortedByDirection, setSortedByDirection] = useState(TableSortDirection.desc);
+  const [filterText, setFilterText] = useState('');
 
   const headers = useMemo(
     () => [
@@ -59,7 +62,9 @@ export const SelectTokenModal = () => {
   );
 
   const rows = useMemo(() => {
-    const sortedTokens = sortBy(exchangeTokens, t => {
+    const filteredTokens = exchangeTokens?.filter(t => t.symbol.toLowerCase().includes(filterText.toLowerCase()));
+
+    const sortedTokens = sortBy(filteredTokens, t => {
       const multiplier = sortedByDirection === TableSortDirection.asc ? 1 : -1;
       if (sortedByHeaderId === TableHeader.ASSET) {
         return multiplier * Number(t.symbol);
@@ -75,10 +80,10 @@ export const SelectTokenModal = () => {
       cells: [
         {
           content: (
-            <TokenSymbolContainer>
+            <div className="flex flex-center">
               <TokenImage src={token.img} />
               <div>{token.symbol}</div>
-            </TokenSymbolContainer>
+            </div>
           ),
         },
         {
@@ -91,7 +96,7 @@ export const SelectTokenModal = () => {
         },
       ],
     }));
-  }, [exchangeTokens, sortedByHeaderId, sortedByDirection]);
+  }, [exchangeTokens, sortedByHeaderId, sortedByDirection, filterText, rate, symbol]);
 
   const onHeaderClick = (headerId: string) => {
     const defaultSortDirection: Record<TableHeader, TableSortDirection> = {
@@ -115,7 +120,7 @@ export const SelectTokenModal = () => {
     const token = exchangeTokens!.find(t => t.symbol === rowId)!;
     const action = openedModal === ModalType.FROM ? ExchangeAction.SET_TOKEN_TO_SELL : ExchangeAction.SET_TOKEN_TO_BUY;
 
-    // @ts-ignore
+    setFilterText('');
     dispatch({ type: action, payload: token });
     dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: null });
   };
@@ -126,17 +131,33 @@ export const SelectTokenModal = () => {
 
   return (
     <GenericModal
-      onClose={() => dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: null })}
+      onClose={() => {
+        setFilterText('');
+        dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: null });
+      }}
       title="Select a token"
       body={
-        <Table
-          headers={headers}
-          rows={rows}
-          sortedByHeaderId={sortedByHeaderId}
-          sortDirection={sortedByDirection}
-          onHeaderClick={onHeaderClick}
-          onRowClick={onRowClick}
-        />
+        <div className="exchange_modal">
+          <div className="table_filter">
+            <div className="py-2">
+              <TextField
+                id="standard-name"
+                label="Filter by token"
+                value={filterText}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFilterText(e.target.value)}
+                startAdornment={<Icon size="sm" type="search" />}
+              />
+            </div>
+          </div>
+          <Table
+            headers={headers}
+            rows={rows}
+            sortedByHeaderId={sortedByHeaderId}
+            sortDirection={sortedByDirection}
+            onHeaderClick={onHeaderClick}
+            onRowClick={onRowClick}
+          />
+        </div>
       }
     />
   );
