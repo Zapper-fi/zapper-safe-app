@@ -13,8 +13,7 @@ import styled from 'styled-components';
 
 import { formatBalanceForDisplay, formatDollarForDisplay } from '../../utils/number';
 
-import { ExchangeAction, ModalType } from './ExchangeProvider';
-import { useExchangeDispatch } from './hooks/useExchangeDispatch';
+import { ModalType } from './ExchangeProvider';
 import { Currency, useExchangeRate } from './hooks/useExchangeRate';
 import { useExchangeState } from './hooks/useExchangeState';
 import { useExchangeTokens } from './hooks/useExchangeTokens';
@@ -32,9 +31,8 @@ const TokenImage = styled.img`
 `;
 
 export const SelectTokenModal = () => {
-  const dispatch = useExchangeDispatch();
   const { exchangeTokens } = useExchangeTokens();
-  const { openedModal } = useExchangeState();
+  const { openedModal, closeModal, setTokenToBuy, setTokenToSell } = useExchangeState();
   const { symbol, rate } = useExchangeRate(Currency.USD);
 
   const [sortedByHeaderId, setSortedByHeaderId] = useState(TableHeader.BALANCE);
@@ -118,11 +116,11 @@ export const SelectTokenModal = () => {
 
   const onRowClick = (rowId: string) => {
     const token = exchangeTokens!.find(t => t.symbol === rowId)!;
-    const action = openedModal === ModalType.FROM ? ExchangeAction.SET_TOKEN_TO_SELL : ExchangeAction.SET_TOKEN_TO_BUY;
+    const setToken = openedModal === ModalType.FROM ? setTokenToSell : setTokenToBuy;
 
     setFilterText('');
-    dispatch({ type: action, payload: token });
-    dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: null });
+    setToken(token);
+    closeModal();
   };
 
   if (!openedModal) {
@@ -133,7 +131,7 @@ export const SelectTokenModal = () => {
     <GenericModal
       onClose={() => {
         setFilterText('');
-        dispatch({ type: ExchangeAction.SET_OPENED_MODAL, payload: null });
+        closeModal();
       }}
       title="Select a token"
       body={

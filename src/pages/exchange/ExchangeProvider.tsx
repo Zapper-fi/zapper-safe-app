@@ -22,14 +22,15 @@ type Action =
   // | { type: ExchangeAction.SET_QUOTE; payload: { quote: Quote | null; error: Error | null } }
   | { type: ExchangeAction.SET_OPENED_MODAL; payload: ModalType | null }
   | { type: ExchangeAction.SET_TOKEN_TO_SELL; payload: ExchangeToken }
-  | { type: ExchangeAction.SET_TOKEN_TO_BUY; payload: ExchangeToken | null };
-// | { type: ExchangeAction.SET_TOKEN_TO_SELL_BALANCE; payload: string }
-// | { type: ExchangeAction.SET_AMOUNT_TO_SELL; payload: string };
+  | { type: ExchangeAction.SET_TOKEN_TO_BUY; payload: ExchangeToken | null }
+  // | { type: ExchangeAction.SET_TOKEN_TO_SELL_BALANCE; payload: string }
+  | { type: ExchangeAction.SET_AMOUNT_TO_SELL; payload: string };
 
 type ExchangeState = {
   openedModal: ModalType | null;
   tokenToSell: ExchangeToken | null;
   tokenToBuy: ExchangeToken | null;
+  amountToSell: string;
 };
 
 const initialState: ExchangeState = {
@@ -44,6 +45,7 @@ const initialState: ExchangeState = {
     symbol: 'ETH',
   },
   tokenToBuy: null,
+  amountToSell: '0',
 };
 
 const reducer = (state: ExchangeState, action: Action): ExchangeState => {
@@ -54,6 +56,8 @@ const reducer = (state: ExchangeState, action: Action): ExchangeState => {
       return { ...state, tokenToSell: action.payload };
     case ExchangeAction.SET_TOKEN_TO_BUY:
       return { ...state, tokenToBuy: action.payload };
+    case ExchangeAction.SET_AMOUNT_TO_SELL:
+      return { ...state, amountToSell: action.payload };
     default: {
       return state;
     }

@@ -2,6 +2,31 @@
   width: 100%;
   margin: $xlg 0;
 
+  &_select_token {
+    display: flex;
+    align-items: center;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+
+    img {
+      height: 24px;
+      width: 24px;
+      margin-right: $sm;
+    }
+
+    span {
+      padding-top: 2px;
+      font-size: $h4;
+      font-weight: $bold;
+    }
+  }
+
+  &_max {
+    padding: $xsm $sm !important;
+    height: auto !important;
+    min-width: 0px !important;
+  }
+
   &_modal {
     .MuiFormControl-root {
       width: 100% !important;
@@ -9,11 +34,6 @@
       .MuiFilledInput-root {
         background-color: transparent !important;
       }
-    }
-
-    .table {
-      overflow: auto;
-      height: 600px;
     }
 
     .MuiTableContainer-root {
@@ -70,6 +90,7 @@
         width: 100%;
         font-size: $h2;
         font-weight: $demibold;
+
         box-sizing: border-box;
         height: 60px;
         padding: 0px;
@@ -79,8 +100,11 @@
 
         &--invalid {
           color: $danger;
-
           border: none !important;
+        }
+
+        &:focus {
+          outline: none;
         }
 
         &:not(:focus) {
