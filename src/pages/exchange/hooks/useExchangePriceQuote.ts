@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { useSafe } from '@rmeissner/safe-apps-react-sdk';
 import Axios from 'axios';
 import useDebouncedEffect from 'use-debounced-effect-hook';
 import Web3 from 'web3';
@@ -11,7 +10,6 @@ import { useSettings } from '../../../hooks/useSettings';
 import { useExchangeState } from './useExchangeState';
 
 export const useExchangePriceQuote = () => {
-  const safe = useSafe();
   const [priceQuote, setPriceQuote] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -20,7 +18,6 @@ export const useExchangePriceQuote = () => {
   const { gasPrices } = useGasPrices();
   const { gasMode, slippage } = useSettings();
   const gasPrice = +(gasPrices?.[gasMode] ?? 0);
-  const { safeAddress } = safe.info;
 
   const areValidTokensSelected = tokenToBuy && tokenToSell && tokenToSell.symbol !== tokenToBuy.symbol;
   const isValidAmountSelected =
@@ -44,7 +41,6 @@ export const useExchangePriceQuote = () => {
         setIsLoading(true);
         Axios.get<any>('http://localhost:5000/v1/exchange/price', {
           params: {
-            ownerAddress: safeAddress,
             sellTokenAddress: tokenToSell?.address ?? tokenToSell?.symbol,
             buyTokenAddress: tokenToBuy?.address ?? tokenToBuy?.symbol,
             sellAmount: amountToSell,
@@ -65,7 +61,7 @@ export const useExchangePriceQuote = () => {
           });
       }
     },
-    [isQuotable, safeAddress, tokenToSell, tokenToBuy, amountToSell, slippage, gasPrice],
+    [isQuotable, tokenToSell, tokenToBuy, amountToSell, slippage, gasPrice],
     200,
   );
 

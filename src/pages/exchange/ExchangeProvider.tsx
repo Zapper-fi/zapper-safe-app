@@ -13,7 +13,6 @@ export enum ExchangeAction {
   SET_OPENED_MODAL = 'SET_MODAL',
   SET_TOKEN_TO_SELL = 'SET_TOKEN_TO_SELL',
   SET_TOKEN_TO_BUY = 'SET_TOKEN_TO_BUY',
-  SET_TOKEN_TO_SELL_BALANCE = 'SET_TOKEN_TO_SELL_BALANCE',
   SET_AMOUNT_TO_SELL = 'SET_AMOUNT_TO_SELL',
 }
 
@@ -23,7 +22,6 @@ type Action =
   | { type: ExchangeAction.SET_OPENED_MODAL; payload: ModalType | null }
   | { type: ExchangeAction.SET_TOKEN_TO_SELL; payload: ExchangeToken }
   | { type: ExchangeAction.SET_TOKEN_TO_BUY; payload: ExchangeToken | null }
-  // | { type: ExchangeAction.SET_TOKEN_TO_SELL_BALANCE; payload: string }
   | { type: ExchangeAction.SET_AMOUNT_TO_SELL; payload: string };
 
 type ExchangeState = {

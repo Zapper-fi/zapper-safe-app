@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
 import { Card, Text, Button, Divider } from '@gnosis.pm/safe-react-components';
+import { upperFirst } from 'lodash';
 import { MdArrowDropDown, MdSwapVert } from 'react-icons/md';
 
 import { Page } from '../../components/Page';
+import SettingsDropdown from '../../components/SettingsDropdown';
 import { useSettings } from '../../hooks/useSettings';
 import { formatBalanceForDisplay } from '../../utils/number';
 
+import { ExchangeRoute } from './ExchangeRoute';
+import { useExchangeApproval } from './hooks/useExchangeApproval';
 import { useExchangePriceQuote } from './hooks/useExchangePriceQuote';
 import { useExchangeState } from './hooks/useExchangeState';
 import { useExchangeTokens } from './hooks/useExchangeTokens';
@@ -16,7 +20,6 @@ export const Exchange: React.FC = () => {
   const [inputValue, setInputValue] = useState('0');
 
   const {
-    amountToSell,
     tokenToBuy,
     tokenToSell,
     setTokenToBuy,
@@ -26,8 +29,15 @@ export const Exchange: React.FC = () => {
     openTokenToSellModal,
   } = useExchangeState();
   const { exchangeTokens } = useExchangeTokens();
-  const { slippage } = useSettings();
-  const { isQuotable, isLoading: isLoadingQuote, priceQuote } = useExchangePriceQuote();
+  const { slippage, gasMode } = useSettings();
+  const { isQuotable, isLoading: isLoadingQuote, priceQuote, error: quoteError } = useExchangePriceQuote();
+  const { isApproved, isLoading: isLoadingApproval, approveToken, exchangeToken } = useExchangeApproval(priceQuote);
+
+  const displayBuyAmount = priceQuote ? (priceQuote.buyAmount / 10 ** tokenToBuy!.decimals!) * (1 - slippage / 100) : 0;
+  const formattedBuyAmount = formatBalanceForDisplay(displayBuyAmount);
+  const isWrap = tokenToSell?.symbol === 'ETH' && tokenToBuy?.symbol === 'WETH';
+  const isUnwrap = tokenToSell?.symbol === 'WETH' && tokenToBuy?.symbol === 'ETH';
+  const isEthWeth = isWrap || isUnwrap;
 
   useEffect(() => {
     if (exchangeTokens) {
@@ -42,6 +52,34 @@ export const Exchange: React.FC = () => {
       setTokenToSell(tokenToBuy);
       setTokenToBuy(tokenToSell!);
     }
+  };
+
+  const handleExchangeClick = () => {
+    if (!isApproved) {
+      approveToken();
+    } else {
+      exchangeToken();
+    }
+  };
+
+  const getExchangeButtonText = () => {
+    if (quoteError) {
+      return 'Exchange Unavailable';
+    }
+
+    if (!isQuotable || isLoadingQuote || isLoadingApproval) {
+      return 'Exchange';
+    }
+
+    if (!isApproved) {
+      return `Approve ${tokenToSell?.symbol}`;
+    }
+
+    if (!isEthWeth) {
+      return 'Exchange';
+    }
+
+    return isWrap ? 'Wrap' : 'Unwrap';
   };
 
   return (
@@ -150,35 +188,55 @@ export const Exchange: React.FC = () => {
                 </div>
               </Button>
               <div className="exchange_card_input">
-                <input
-                  className="input"
-                  step="any"
-                  disabled={true}
-                  value={
-                    priceQuote?.buyAmount
-                      ? formatBalanceForDisplay(
-                          (priceQuote?.buyAmount / 10 ** tokenToBuy!.decimals) * (1 - slippage / 100),
-                        )
-                      : ''
-                  }
-                />
+                <input className="input" step="any" disabled={true} value={formattedBuyAmount} />
               </div>
             </div>
           </div>
           <Divider />
           <div className="py-2">
-            Exchanging raw amount {amountToSell}
             <Button
-              disabled={!isQuotable || isLoadingQuote}
+              disabled={!isQuotable || isLoadingQuote || !!quoteError}
               className="input--max"
               size="lg"
               color="primary"
               variant="contained"
+              onClick={handleExchangeClick}
             >
-              Exchange
+              {isLoadingQuote && (
+                <div className="loading-icon__wrapper">
+                  <div className="lds-dual-ring"></div>
+                </div>
+              )}
+              {getExchangeButtonText()}
             </Button>
           </div>
         </Card>
+        {priceQuote && (
+          <div className="exchange_route">
+            <div className="exchange_transaction-settings">
+              <div className="exchange_transaction-settings_title">Transaction Settings</div>
+              <SettingsDropdown />
+            </div>
+            {!isEthWeth && (
+              <div className="exchange_route_stat">
+                <div className="exchange_route_stat--left">Slippage</div>
+                <div className="exchange_route_stat--right">{Number(slippage).toFixed(2)}%</div>
+              </div>
+            )}
+            {!isEthWeth && (
+              <div className="exchange_route_stat">
+                <div className="exchange_route_stat--left">Minimum Received</div>
+                <div className="exchange_route_stat--right">{formattedBuyAmount}</div>
+              </div>
+            )}
+            <div className="exchange_route_stat">
+              <div className="exchange_route_stat--left">Transaction Speed</div>
+              <div className="exchange_route_stat--right">{upperFirst(gasMode)}</div>
+            </div>
+          </div>
+        )}
+        {isApproved ? 'APPROVED!' : 'NAH!'}
+        {priceQuote && priceQuote.sources.length > 0 && <ExchangeRoute sources={priceQuote.sources} />}
       </div>
       <SelectTokenModal />
     </Page>
