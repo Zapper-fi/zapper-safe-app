@@ -11,7 +11,7 @@ import {
 import { sortBy } from 'lodash';
 import styled from 'styled-components';
 
-import { Currency } from '../../context/SettingsContext';
+import { useSettings } from '../../hooks/useSettings';
 import { formatBalanceForDisplay, formatDollarForDisplay } from '../../utils/number';
 
 import { ModalType } from './ExchangeProvider';
@@ -32,9 +32,10 @@ const TokenImage = styled.img`
 `;
 
 export const SelectTokenModal = () => {
+  const { currency } = useSettings();
   const { exchangeTokens } = useExchangeTokens();
   const { openedModal, setOpenedModal, setTokenToBuy, setTokenToSell } = useExchangeState();
-  const { symbol, rate } = useExchangeRate(Currency.USD);
+  const { symbol, rate } = useExchangeRate(currency);
 
   const [sortedByHeaderId, setSortedByHeaderId] = useState(TableHeader.VALUE);
   const [sortedByDirection, setSortedByDirection] = useState(TableSortDirection.desc);
