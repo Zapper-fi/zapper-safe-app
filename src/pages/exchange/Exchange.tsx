@@ -60,8 +60,6 @@ export const Exchange: React.FC = () => {
       approveToken();
     } else {
       exchangeToken();
-      setAmountToSell('0');
-      setInputValue('0');
     }
   };
 
