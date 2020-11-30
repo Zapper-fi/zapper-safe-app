@@ -23,17 +23,20 @@ export const ExchangeStateContext = React.createContext<ExchangeContextType>({} 
 export const ExchangeProvider: React.FC = ({ children }) => {
   const { exchangeTokens } = useExchangeTokens();
   const [openedModal, setOpenedModal] = useState<ModalType | null>(null);
-  const [tokenToSell, setTokenToSell] = useState<ExchangeToken | null>(null);
+  const [tokenToSell, setTokenToSell] = useState<ExchangeToken | null>({
+    address: '0x0000000000000000000000000000000000000000',
+    balance: 0,
+    balanceRaw: '0',
+    balanceUSD: 0,
+    decimals: 18,
+    img: 'https://zapper.fi/images/ETH-icon.png',
+    symbol: 'ETH',
+  });
   const [tokenToBuy, setTokenToBuy] = useState<ExchangeToken | null>(null);
   const [amountToSell, setAmountToSell] = useState('0');
 
   // Update token to sell and token to buy balances
   useEffect(() => {
-    if (exchangeTokens && !tokenToSell) {
-      const updatedTokenToSell = exchangeTokens.find(t => t.symbol === 'ETH')!;
-      setTokenToSell(updatedTokenToSell);
-    }
-
     if (exchangeTokens && tokenToSell) {
       const updatedTokenToSell = exchangeTokens.find(t => t.symbol === tokenToSell.symbol)!;
       if (updatedTokenToSell?.balance !== tokenToSell.balance) {
