@@ -7,7 +7,6 @@ import { Navigation } from './components/Navigation';
 import { GasPriceProvider } from './context/GasPriceContext';
 import { SettingsProvider } from './context/SettingsContext';
 import { ExchangePage } from './pages/exchange';
-import { InvestPage } from './pages/invest';
 
 import './styles/app.scss';
 
@@ -22,9 +21,6 @@ const App: React.FC = () => {
             <Switch>
               <Route exact path={['/', '/exchange']}>
                 <ExchangePage />
-              </Route>
-              <Route exact path={['/invest']}>
-                <InvestPage />
               </Route>
             </Switch>
           </GasPriceProvider>

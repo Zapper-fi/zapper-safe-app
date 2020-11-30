@@ -10,7 +10,7 @@ import { Quote } from '../constants/types';
 
 import { useExchangeState } from './useExchangeState';
 
-export const useExchangeApproval = (priceQuote?: Quote) => {
+export const useExchangeApproval = (price: Quote | null) => {
   const safe = useSafe();
   const { sdk } = useGnosisSdk();
   const { tokenToBuy, tokenToSell, amountToSell } = useExchangeState();
@@ -25,14 +25,14 @@ export const useExchangeApproval = (priceQuote?: Quote) => {
         params: {
           ownerAddress: safeAddress,
           tokenAddress: tokenToSell?.address,
-          spenderAddress: priceQuote!.allowanceTarget,
+          spenderAddress: price!.allowanceTarget,
         },
       });
 
       return data;
     },
     {
-      enabled: priceQuote && !!tokenToSell && tokenToSell.address !== 'ETH',
+      enabled: price && !!tokenToSell && tokenToSell.symbol !== 'ETH',
     },
   );
 
@@ -62,7 +62,7 @@ export const useExchangeApproval = (priceQuote?: Quote) => {
   };
 
   const isApproved =
-    tokenToSell?.address === 'ETH' || Web3.utils.toBN(amountToSell).lte(Web3.utils.toBN(data?.allowance ?? '0'));
+    tokenToSell?.symbol === 'ETH' || Web3.utils.toBN(amountToSell).lte(Web3.utils.toBN(data?.allowance ?? '0'));
 
   return { isApproved, isLoading, approveToken, exchangeToken };
 };

@@ -1,4 +1,4 @@
-import React, { Dispatch, useReducer } from 'react';
+import React, { useState } from 'react';
 
 export enum Currency {
   USD = 'USD',
@@ -35,46 +35,22 @@ export enum SettingsActionType {
 
 export const SLIPPAGE_OPTIONS = [2, 3];
 
-export type SettingsAction =
-  | { type: SettingsActionType.SET_CURRENCY; payload: Currency }
-  | { type: SettingsActionType.SET_GAS_MODE; payload: GasMode }
-  | { type: SettingsActionType.SET_SLIPPAGE; payload: number };
-
-export type SettingsState = {
+export type SettingsContextType = {
   currency: Currency;
   gasMode: GasMode;
   slippage: number;
+  setCurrency: (currency: Currency) => void;
+  setGasMode: (gasMode: GasMode) => void;
+  setSlippage: (slippage: number) => void;
 };
 
-const initialState: SettingsState = {
-  currency: Currency.USD,
-  gasMode: GasMode.FAST,
-  slippage: 3,
-};
-
-export const SettingsStateContext = React.createContext<SettingsState>(initialState);
-export const SettingsDispatchContext = React.createContext<Dispatch<SettingsAction>>(() => {});
-
-const reducer = (state: SettingsState = initialState, action: SettingsAction): SettingsState => {
-  switch (action.type) {
-    case SettingsActionType.SET_CURRENCY:
-      return { ...state, currency: action.payload };
-    case SettingsActionType.SET_GAS_MODE:
-      return { ...state, gasMode: action.payload };
-    case SettingsActionType.SET_SLIPPAGE:
-      return { ...state, slippage: action.payload };
-    default: {
-      return state;
-    }
-  }
-};
+export const SettingsStateContext = React.createContext<SettingsContextType>({} as any);
 
 export const SettingsProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [currency, setCurrency] = useState(Currency.USD);
+  const [gasMode, setGasMode] = useState(GasMode.FAST);
+  const [slippage, setSlippage] = useState(3);
 
-  return (
-    <SettingsStateContext.Provider value={state}>
-      <SettingsDispatchContext.Provider value={dispatch}>{children}</SettingsDispatchContext.Provider>
-    </SettingsStateContext.Provider>
-  );
+  const value = { currency, gasMode, slippage, setCurrency, setGasMode, setSlippage };
+  return <SettingsStateContext.Provider value={value}>{children}</SettingsStateContext.Provider>;
 };

@@ -4,14 +4,13 @@ import { Card, Text, Button, Divider } from '@gnosis.pm/safe-react-components';
 import { upperFirst } from 'lodash';
 import { MdArrowDropDown, MdSwapVert } from 'react-icons/md';
 
-import { Page } from '../../components/Page';
 import SettingsDropdown from '../../components/SettingsDropdown';
 import { useSettings } from '../../hooks/useSettings';
 import { formatBalanceForDisplay } from '../../utils/number';
 
-import { ExchangeRoute } from './ExchangeRoute';
+import { ModalType } from './ExchangeProvider';
 import { useExchangeApproval } from './hooks/useExchangeApproval';
-import { useExchangePriceQuote } from './hooks/useExchangePriceQuote';
+import { useExchangePrice } from './hooks/useExchangePrice';
 import { useExchangeState } from './hooks/useExchangeState';
 import { useExchangeTokens } from './hooks/useExchangeTokens';
 import { SelectTokenModal } from './SelectTokenModal';
@@ -25,26 +24,28 @@ export const Exchange: React.FC = () => {
     setTokenToBuy,
     setTokenToSell,
     setAmountToSell,
-    openTokenToBuyModal,
-    openTokenToSellModal,
+    setOpenedModal,
   } = useExchangeState();
   const { exchangeTokens } = useExchangeTokens();
   const { slippage, gasMode } = useSettings();
-  const { isQuotable, isLoading: isLoadingQuote, priceQuote, error: quoteError } = useExchangePriceQuote();
-  const { isApproved, isLoading: isLoadingApproval, approveToken, exchangeToken } = useExchangeApproval(priceQuote);
+  const { isQuotable, isLoading: isLoadingPrice, exchangePrice, error: exchangePriceError } = useExchangePrice();
+  const { isApproved, isLoading: isLoadingApproval, approveToken, exchangeToken } = useExchangeApproval(exchangePrice);
 
-  const displayBuyAmount = priceQuote ? (priceQuote.buyAmount / 10 ** tokenToBuy!.decimals!) * (1 - slippage / 100) : 0;
-  const formattedBuyAmount = formatBalanceForDisplay(displayBuyAmount);
+  const displayBuyAmount = exchangePrice ? +exchangePrice.buyAmount / 10 ** tokenToBuy!.decimals! : 0;
+  const displayBuyAmountWithSlippage = displayBuyAmount * (1 - slippage / 100);
+  const formattedBuyAmount = formatBalanceForDisplay(displayBuyAmountWithSlippage);
+
   const isWrap = tokenToSell?.symbol === 'ETH' && tokenToBuy?.symbol === 'WETH';
   const isUnwrap = tokenToSell?.symbol === 'WETH' && tokenToBuy?.symbol === 'ETH';
   const isEthWeth = isWrap || isUnwrap;
+  const exchangeSources = (exchangePrice?.sources ?? []).filter(source => Number(source.proportion) > 0);
 
   useEffect(() => {
     if (exchangeTokens) {
       const ethToken = exchangeTokens!.find(t => t.symbol === 'ETH')!;
       setTokenToSell(ethToken);
     }
-  }, [exchangeTokens]);
+  }, [exchangeTokens, setTokenToSell]);
 
   const handleSwitchToAndFromTokens = () => {
     if (tokenToBuy) {
@@ -59,15 +60,17 @@ export const Exchange: React.FC = () => {
       approveToken();
     } else {
       exchangeToken();
+      setAmountToSell('0');
+      setInputValue('0');
     }
   };
 
   const getExchangeButtonText = () => {
-    if (quoteError) {
+    if (exchangePriceError) {
       return 'Exchange Unavailable';
     }
 
-    if (!isQuotable || isLoadingQuote || isLoadingApproval) {
+    if (!isQuotable || isLoadingPrice || isLoadingApproval) {
       return 'Exchange';
     }
 
@@ -83,7 +86,7 @@ export const Exchange: React.FC = () => {
   };
 
   return (
-    <Page>
+    <div>
       <div className="exchange">
         <Card className="exchange_card">
           <div className="py-1 flex flex-baseline flex-between">
@@ -96,7 +99,12 @@ export const Exchange: React.FC = () => {
           </div>
           <div className="py-1 flex flex-center flex-between">
             <div>
-              <Button className="exchange_select_token mr-1" size="md" color="primary" onClick={openTokenToSellModal}>
+              <Button
+                className="exchange_select_token mr-1"
+                size="md"
+                color="primary"
+                onClick={() => setOpenedModal(ModalType.FROM)}
+              >
                 <img src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`} />
                 <span>{tokenToSell?.symbol}</span>
                 <div className="icon">
@@ -159,9 +167,9 @@ export const Exchange: React.FC = () => {
                   </div>
                 </div>
               </button>
-              {priceQuote && (
+              {exchangePrice && (
                 <Text size="lg" color="secondaryHover">
-                  {`1 ${tokenToBuy!.symbol} = ${formatBalanceForDisplay(1 / Number(priceQuote.price))} ${
+                  {`1 ${tokenToBuy!.symbol} = ${formatBalanceForDisplay(1 / Number(exchangePrice.price))} ${
                     tokenToSell!.symbol
                   }`}
                 </Text>
@@ -170,15 +178,18 @@ export const Exchange: React.FC = () => {
           </div>
           <Divider />
           <div className="py-1">
-            <div className="py-2 flex flex-baseline flex-between">
-              <Text size="xl" color="secondaryHover">
-                To
-              </Text>
-            </div>
+            <Text size="xl" color="secondaryHover">
+              To
+            </Text>
           </div>
           <div className="py-1">
-            <div className="py-2 flex flex-baseline flex-between">
-              <Button className="exchange_select_token" size="md" color="primary" onClick={openTokenToBuyModal}>
+            <div className="flex flex-baseline flex-between">
+              <Button
+                className="exchange_select_token"
+                size="md"
+                color="primary"
+                onClick={() => setOpenedModal(ModalType.TO)}
+              >
                 {tokenToBuy && <img src={`https://zapper.fi/images/${tokenToBuy?.symbol}-icon.png`} />}
                 <span>{tokenToBuy ? tokenToBuy.symbol : 'Select Token'}</span>
                 <div className="icon">
@@ -193,16 +204,16 @@ export const Exchange: React.FC = () => {
             </div>
           </div>
           <Divider />
-          <div className="py-2">
+          <div className="py-1">
             <Button
-              disabled={!isQuotable || isLoadingQuote || !!quoteError}
+              disabled={!isQuotable || isLoadingPrice || !!exchangePriceError}
               className="input--max"
               size="lg"
               color="primary"
               variant="contained"
               onClick={handleExchangeClick}
             >
-              {isLoadingQuote && (
+              {isLoadingPrice && (
                 <div className="loading-icon__wrapper">
                   <div className="lds-dual-ring"></div>
                 </div>
@@ -211,7 +222,7 @@ export const Exchange: React.FC = () => {
             </Button>
           </div>
         </Card>
-        {priceQuote && (
+        {exchangePrice && (
           <div className="exchange_route">
             <div className="exchange_transaction-settings">
               <div className="exchange_transaction-settings_title">Transaction Settings</div>
@@ -235,10 +246,29 @@ export const Exchange: React.FC = () => {
             </div>
           </div>
         )}
-        {isApproved ? 'APPROVED!' : 'NAH!'}
-        {priceQuote && priceQuote.sources.length > 0 && <ExchangeRoute sources={priceQuote.sources} />}
+        {exchangeSources.length > 0 && (
+          <div className="exchange_route">
+            <div className="exchange_route_title">Exchange Route</div>
+            {exchangeSources.map((item, idx) => (
+              <div className="exchange_route_item" key={`quote-source-${idx}`}>
+                {item.name !== 'MultiHop' && <img src={`https://zapper.fi/images/${item.symbol}-icon.png`} />}
+                {item.name === 'MultiHop'
+                  ? (item.hops || []).map(hop => (
+                      <span className="exchange_route_item_hop" key={`exchange-hop-${item.name}-${hop}`}>
+                        {hop.symbol && <img src={`/images/${hop.symbol}-icon.png`} />}
+                        {hop.displayName}
+                      </span>
+                    ))
+                  : item.displayName}
+                {item.proportion !== '1' && (
+                  <div className="exchange_route_item_fee">{(Number(item.proportion) * 100).toFixed(2)}%</div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <SelectTokenModal />
-    </Page>
+    </div>
   );
 };

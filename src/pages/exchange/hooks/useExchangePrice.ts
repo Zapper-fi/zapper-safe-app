@@ -6,11 +6,12 @@ import Web3 from 'web3';
 
 import { useGasPrices } from '../../../hooks/useGasPrices';
 import { useSettings } from '../../../hooks/useSettings';
+import { Quote } from '../constants/types';
 
 import { useExchangeState } from './useExchangeState';
 
-export const useExchangePriceQuote = () => {
-  const [priceQuote, setPriceQuote] = useState<any>(null);
+export const useExchangePrice = () => {
+  const [exchangePrice, setExchangePrice] = useState<Quote | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -34,12 +35,12 @@ export const useExchangePriceQuote = () => {
   useDebouncedEffect(
     () => {
       if (!isQuotable) {
-        setPriceQuote(null);
+        setExchangePrice(null);
         setIsLoading(false);
         setError(null);
       } else {
         setIsLoading(true);
-        Axios.get<any>('http://localhost:5000/v1/exchange/price', {
+        Axios.get<Quote>('http://localhost:5000/v1/exchange/price', {
           params: {
             sellTokenAddress: tokenToSell?.address ?? tokenToSell?.symbol,
             buyTokenAddress: tokenToBuy?.address ?? tokenToBuy?.symbol,
@@ -51,7 +52,7 @@ export const useExchangePriceQuote = () => {
           .then(({ data }) => {
             // eslint-disable-next-line no-console
             console.log(data);
-            setPriceQuote(data);
+            setExchangePrice(data);
           })
           .catch(err => {
             setError(err);
@@ -65,5 +66,5 @@ export const useExchangePriceQuote = () => {
     200,
   );
 
-  return { isQuotable, priceQuote, isLoading, error };
+  return { isQuotable, exchangePrice, isLoading, error };
 };

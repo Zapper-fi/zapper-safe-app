@@ -1,4 +1,4 @@
-import { CryptoCurrency, Currency } from '../pages/exchange/hooks/useExchangeRate';
+import { CryptoCurrency, Currency } from '../context/SettingsContext';
 
 export const formatBalanceForDisplay = (balance: number): string => {
   let formattedBalance = balance.toString();

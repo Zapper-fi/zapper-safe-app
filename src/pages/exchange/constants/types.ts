@@ -1,27 +1,16 @@
-export type QuoteSourceName =
-  | '0x'
-  | 'LiquidityProvider'
-  | 'Uniswap'
-  | 'Uniswap_V2'
-  | 'Kyber'
-  | 'Curve'
-  | 'Balancer'
-  | 'Cream'
-  | 'Bancor'
-  | 'mStable'
-  | 'Mooniswap'
-  | 'Shell'
-  | 'Swerve'
-  | 'SnowSwap'
-  | 'SushiSwap'
-  | 'MultiHop'
-  | 'DODO';
+export type QuoteHop = {
+  name: string;
+  displayName: string;
+  symbol: string;
+};
 
 export type QuoteSource = {
-  name: QuoteSourceName;
+  name: string;
+  displayName: string;
+  symbol: string;
   proportion: string;
   intermediateToken?: string;
-  hops?: QuoteSourceName[];
+  hops?: QuoteHop[];
 };
 
 type QuoteOrder = {

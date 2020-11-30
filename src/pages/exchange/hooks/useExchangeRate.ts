@@ -1,25 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export enum Currency {
-  USD = 'USD',
-  EUR = 'EUR',
-  GBP = 'GBP',
-  CAD = 'CAD',
-  CNY = 'CNY',
-  KRW = 'KRW',
-  JPY = 'JPY',
-  RUB = 'RUB',
-  AUD = 'AUD',
-  NZD = 'NZD',
-  CHF = 'CHF',
-  SGD = 'SGD',
-  INR = 'INR',
-  ETH = 'ETH',
-  BTC = 'BTC',
-  LINK = 'LINK',
-}
-
-export type CryptoCurrency = Currency.ETH | Currency.LINK | Currency.BTC;
+import { Currency } from '../../../context/SettingsContext';
 
 export type ExchangeRate = {
   symbol: Currency;
