@@ -41,6 +41,7 @@ export const Exchange: React.FC = () => {
   const handleSwitchToAndFromTokens = () => {
     if (tokenToBuy) {
       setInputValue('0');
+      setAmountToSell('0');
       setTokenToSell(tokenToBuy);
       setTokenToBuy(tokenToSell!);
     }

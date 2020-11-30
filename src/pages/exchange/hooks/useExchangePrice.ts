@@ -19,6 +19,7 @@ export const useExchangePrice = () => {
 
   const areValidTokensSelected = tokenToBuy && tokenToSell && tokenToSell.symbol !== tokenToBuy.symbol;
   const isValidAmountSelected =
+    amountToSell === debouncedAmountToSell &&
     +debouncedAmountToSell > 0 &&
     Web3.utils.toBN(debouncedAmountToSell).lte(Web3.utils.toBN(tokenToSell?.balanceRaw || '0'));
   const isValidGasPrice = gasPrice > 0;
