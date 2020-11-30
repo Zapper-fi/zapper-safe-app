@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Card, Text, Button, Divider } from '@gnosis.pm/safe-react-components';
 import { upperFirst } from 'lodash';
@@ -12,7 +12,6 @@ import { ModalType } from './ExchangeProvider';
 import { useExchangeApproval } from './hooks/useExchangeApproval';
 import { useExchangePrice } from './hooks/useExchangePrice';
 import { useExchangeState } from './hooks/useExchangeState';
-import { useExchangeTokens } from './hooks/useExchangeTokens';
 import { SelectTokenModal } from './SelectTokenModal';
 
 export const Exchange: React.FC = () => {
@@ -26,7 +25,6 @@ export const Exchange: React.FC = () => {
     setAmountToSell,
     setOpenedModal,
   } = useExchangeState();
-  const { exchangeTokens } = useExchangeTokens();
   const { slippage, gasMode } = useSettings();
   const { isQuotable, isLoading: isLoadingPrice, exchangePrice, error: exchangePriceError } = useExchangePrice();
   const { isApproved, isLoading: isLoadingApproval, approveToken, exchangeToken } = useExchangeApproval(exchangePrice);
@@ -39,13 +37,6 @@ export const Exchange: React.FC = () => {
   const isUnwrap = tokenToSell?.symbol === 'WETH' && tokenToBuy?.symbol === 'ETH';
   const isEthWeth = isWrap || isUnwrap;
   const exchangeSources = (exchangePrice?.sources ?? []).filter(source => Number(source.proportion) > 0);
-
-  useEffect(() => {
-    if (exchangeTokens) {
-      const ethToken = exchangeTokens!.find(t => t.symbol === 'ETH')!;
-      setTokenToSell(ethToken);
-    }
-  }, [exchangeTokens, setTokenToSell]);
 
   const handleSwitchToAndFromTokens = () => {
     if (tokenToBuy) {
@@ -253,7 +244,7 @@ export const Exchange: React.FC = () => {
                 {item.name === 'MultiHop'
                   ? (item.hops || []).map(hop => (
                       <span className="exchange_route_item_hop" key={`exchange-hop-${item.name}-${hop}`}>
-                        {hop.symbol && <img src={`/images/${hop.symbol}-icon.png`} />}
+                        {hop.symbol && <img src={`https://zapper.fi/images/${hop.symbol}-icon.png`} />}
                         {hop.displayName}
                       </span>
                     ))
