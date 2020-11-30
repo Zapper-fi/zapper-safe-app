@@ -10,7 +10,7 @@ import { Quote } from '../constants/types';
 
 import { useExchangeState } from './useExchangeState';
 
-export const useExchangeApproval = (price: Quote | null) => {
+export const useExchangeApproval = (price?: Quote) => {
   const safe = useSafe();
   const { sdk } = useGnosisSdk();
   const { tokenToBuy, tokenToSell, amountToSell } = useExchangeState();
