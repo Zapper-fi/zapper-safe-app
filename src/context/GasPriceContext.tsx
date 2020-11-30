@@ -24,7 +24,7 @@ export const GasPriceContext = React.createContext<GasPriceState>({ data: undefi
 
 export const GasPriceProvider: React.FC = ({ children }) => {
   const { data, isLoading } = useQuery(['gas-prices'], async () => {
-    const { data } = await Axios.get<GasPriceResponse>(`https://zapper-api-production.herokuapp.com/v1/gas-price`);
+    const { data } = await Axios.get<GasPriceResponse>(`${process.env.REACT_APP_ZAPPER_API}/v1/gas-price`);
     return data;
   });
 

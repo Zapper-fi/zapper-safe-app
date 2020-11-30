@@ -27,7 +27,7 @@ export const useExchangePrice = () => {
   const { data: exchangePrice, isLoading, error } = useQuery(
     ['price', tokenToBuy?.symbol, tokenToSell?.symbol, debouncedAmountToSell, slippage, gasPrice.toString()],
     async () => {
-      const { data } = await Axios.get<Quote>('http://localhost:5000/v1/exchange/price', {
+      const { data } = await Axios.get<Quote>(`${process.env.REACT_APP_ZAPPER_API}/v1/exchange/price`, {
         params: {
           sellTokenAddress: tokenToSell?.address ?? tokenToSell?.symbol,
           buyTokenAddress: tokenToBuy?.address ?? tokenToBuy?.symbol,

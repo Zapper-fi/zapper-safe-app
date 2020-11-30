@@ -21,7 +21,7 @@ export const useExchangeApproval = (price?: Quote) => {
   const { data, isLoading } = useQuery(
     ['allowance', tokenToSell?.address],
     async () => {
-      const { data } = await Axios.get<any>('http://localhost:5000/v1/exchange/allowance', {
+      const { data } = await Axios.get<any>(`${process.env.REACT_APP_ZAPPER_API}/v1/exchange/allowance`, {
         params: {
           ownerAddress: safeAddress,
           tokenAddress: tokenToSell?.address,
@@ -44,7 +44,7 @@ export const useExchangeApproval = (price?: Quote) => {
   };
 
   const exchangeToken = async () => {
-    const { data: transaction } = await Axios.get<Quote>('http://localhost:5000/v1/exchange/quote', {
+    const { data: transaction } = await Axios.get<Quote>(`${process.env.REACT_APP_ZAPPER_API}/v1/exchange/quote`, {
       params: {
         sellTokenAddress: tokenToSell?.address ?? tokenToSell?.symbol,
         buyTokenAddress: tokenToBuy?.address ?? tokenToBuy?.symbol,

@@ -18,13 +18,9 @@ export const useExchangeTokens = () => {
   const { safeAddress } = safe.info;
 
   const { data: exchangeTokens } = useQuery(['tokens', safeAddress], async () => {
-    const { data } = await Axios.get<ExchangeToken[]>(
-      // `https://zapper-api-production.herokuapp.com/v1/exchange/tokens`,
-      `http://localhost:5000/v1/exchange/tokens`,
-      {
-        params: { address: safeAddress },
-      },
-    );
+    const { data } = await Axios.get<ExchangeToken[]>(`${process.env.REACT_APP_ZAPPER_API}/v1/exchange/tokens`, {
+      params: { address: safeAddress },
+    });
     return data;
   });
 
