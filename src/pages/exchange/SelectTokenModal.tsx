@@ -36,7 +36,7 @@ export const SelectTokenModal = () => {
   const { openedModal, setOpenedModal, setTokenToBuy, setTokenToSell } = useExchangeState();
   const { symbol, rate } = useExchangeRate(Currency.USD);
 
-  const [sortedByHeaderId, setSortedByHeaderId] = useState(TableHeader.BALANCE);
+  const [sortedByHeaderId, setSortedByHeaderId] = useState(TableHeader.VALUE);
   const [sortedByDirection, setSortedByDirection] = useState(TableSortDirection.desc);
   const [filterText, setFilterText] = useState('');
 
