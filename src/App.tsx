@@ -3,7 +3,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import { Header } from './components/Header';
-import { Navigation } from './components/Navigation';
 import { GasPriceProvider } from './context/GasPriceContext';
 import { SettingsProvider } from './context/SettingsContext';
 import { ExchangePage } from './pages/exchange';
@@ -17,7 +16,6 @@ const App: React.FC = () => {
         <SettingsProvider>
           <GasPriceProvider>
             <Header />
-            <Navigation />
             <Switch>
               <Route exact path={['/', '/exchange']}>
                 <ExchangePage />
