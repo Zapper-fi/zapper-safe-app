@@ -11,7 +11,7 @@ import './styles/app.scss';
 
 const App: React.FC = () => {
   return (
-    <div className="theme--light">
+    <div className="theme--light px-4 py-4">
       <Router>
         <SettingsProvider>
           <GasPriceProvider>
