@@ -95,7 +95,10 @@ export const Exchange: React.FC = () => {
                 color="primary"
                 onClick={() => setOpenedModal(ModalType.FROM)}
               >
-                <img src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`} alt={`${cell.symbol} Icon`} />
+                <img
+                  src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`}
+                  alt={`${tokenToSell?.symbol} Icon`}
+                />
                 <span>{tokenToSell?.symbol}</span>
                 <div className="icon">
                   <div className="flex flex-center">
