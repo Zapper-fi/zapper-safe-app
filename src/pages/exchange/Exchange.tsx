@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Card, Text, Button, Divider } from '@gnosis.pm/safe-react-components';
 import { upperFirst } from 'lodash';
@@ -15,15 +15,15 @@ import { useExchangeState } from './hooks/useExchangeState';
 import { SelectTokenModal } from './SelectTokenModal';
 
 export const Exchange: React.FC = () => {
-  const [inputValue, setInputValue] = useState('0');
-
   const {
     tokenToBuy,
     tokenToSell,
+    amountToSellInputValue,
     setTokenToBuy,
     setTokenToSell,
     setAmountToSell,
     setOpenedModal,
+    setAmountToSellInputValue,
   } = useExchangeState();
   const { slippage, gasMode } = useSettings();
   const { isQuotable, isLoading: isLoadingPrice, exchangePrice, error: exchangePriceError } = useExchangePrice();
@@ -40,7 +40,7 @@ export const Exchange: React.FC = () => {
 
   const handleSwitchToAndFromTokens = () => {
     if (tokenToBuy) {
-      setInputValue('0');
+      setAmountToSellInputValue('0');
       setAmountToSell('0');
       setTokenToSell(tokenToBuy);
       setTokenToBuy(tokenToSell!);
@@ -113,7 +113,7 @@ export const Exchange: React.FC = () => {
                   variant="contained"
                   color="primary"
                   onClick={() => {
-                    setInputValue(`${tokenToSell!.balance!}`);
+                    setAmountToSellInputValue(`${tokenToSell!.balance!}`);
                     setAmountToSell(tokenToSell!.balanceRaw!);
                   }}
                 >
@@ -127,22 +127,22 @@ export const Exchange: React.FC = () => {
                 type="number"
                 min={0}
                 step="any"
-                className={`input ${tokenToSell && +inputValue > tokenToSell.balance && 'input--invalid'}`}
-                value={inputValue}
+                className={`input ${tokenToSell && +amountToSellInputValue > tokenToSell.balance && 'input--invalid'}`}
+                value={amountToSellInputValue}
                 onFocus={() => {
-                  if (inputValue === '0') {
-                    setInputValue('');
+                  if (amountToSellInputValue === '0') {
+                    setAmountToSellInputValue('');
                   }
                 }}
                 onBlur={() => {
-                  if (inputValue === '') {
-                    setInputValue('0');
+                  if (amountToSellInputValue === '') {
+                    setAmountToSellInputValue('0');
                     setAmountToSell('0');
                   }
                 }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   const amountToSell = e.target.value;
-                  setInputValue(amountToSell);
+                  setAmountToSellInputValue(amountToSell);
 
                   const rawAmountToSell = `${+amountToSell * 10 ** tokenToSell!.decimals!}`;
                   setAmountToSell(rawAmountToSell);

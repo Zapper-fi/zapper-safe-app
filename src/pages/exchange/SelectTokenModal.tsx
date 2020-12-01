@@ -34,7 +34,14 @@ const TokenImage = styled.img`
 export const SelectTokenModal = () => {
   const { currency } = useSettings();
   const { exchangeTokens } = useExchangeTokens();
-  const { openedModal, setOpenedModal, setTokenToBuy, setTokenToSell } = useExchangeState();
+  const {
+    openedModal,
+    setOpenedModal,
+    setTokenToBuy,
+    setTokenToSell,
+    setAmountToSell,
+    setAmountToSellInputValue,
+  } = useExchangeState();
   const { symbol, rate } = useExchangeRate(currency);
 
   const [sortedByHeaderId, setSortedByHeaderId] = useState(TableHeader.VALUE);
@@ -121,6 +128,8 @@ export const SelectTokenModal = () => {
 
     if (openedModal === ModalType.FROM) {
       setTokenToSell(token);
+      setAmountToSellInputValue('0');
+      setAmountToSell('0');
     } else {
       setTokenToBuy(token);
     }

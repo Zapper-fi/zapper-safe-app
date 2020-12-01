@@ -12,10 +12,12 @@ type ExchangeContextType = {
   tokenToSell: ExchangeToken | null;
   tokenToBuy: ExchangeToken | null;
   amountToSell: string;
+  amountToSellInputValue: string;
   setOpenedModal: (openedModal: ModalType | null) => void;
   setTokenToSell: (tokenToSell: ExchangeToken) => void;
   setTokenToBuy: (tokenToBuy: ExchangeToken) => void;
   setAmountToSell: (amountToSell: string) => void;
+  setAmountToSellInputValue: (amountToSell: string) => void;
 };
 
 export const ExchangeStateContext = React.createContext<ExchangeContextType>({} as any);
@@ -34,6 +36,7 @@ export const ExchangeProvider: React.FC = ({ children }) => {
   });
   const [tokenToBuy, setTokenToBuy] = useState<ExchangeToken | null>(null);
   const [amountToSell, setAmountToSell] = useState('0');
+  const [amountToSellInputValue, setAmountToSellInputValue] = useState('0');
 
   // Update token to sell and token to buy balances
   useEffect(() => {
@@ -57,10 +60,12 @@ export const ExchangeProvider: React.FC = ({ children }) => {
     tokenToSell,
     tokenToBuy,
     amountToSell,
+    amountToSellInputValue,
     setOpenedModal,
     setTokenToSell,
     setTokenToBuy,
     setAmountToSell,
+    setAmountToSellInputValue,
   };
 
   return <ExchangeStateContext.Provider value={value}>{children}</ExchangeStateContext.Provider>;
