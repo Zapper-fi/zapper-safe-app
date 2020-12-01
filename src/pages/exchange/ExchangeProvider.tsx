@@ -50,7 +50,7 @@ export const ExchangeProvider: React.FC = ({ children }) => {
         setTokenToBuy(updatedTokenToBuy);
       }
     }
-  }, [exchangeTokens]);
+  }, [exchangeTokens, tokenToBuy, tokenToSell]);
 
   const value = {
     openedModal,

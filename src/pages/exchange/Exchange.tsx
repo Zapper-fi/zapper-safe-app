@@ -95,7 +95,7 @@ export const Exchange: React.FC = () => {
                 color="primary"
                 onClick={() => setOpenedModal(ModalType.FROM)}
               >
-                <img src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`} />
+                <img src={`https://zapper.fi/images/${tokenToSell?.symbol}-icon.png`} alt={`${cell.symbol} Icon`} />
                 <span>{tokenToSell?.symbol}</span>
                 <div className="icon">
                   <div className="flex flex-center">
@@ -180,7 +180,12 @@ export const Exchange: React.FC = () => {
                 color="primary"
                 onClick={() => setOpenedModal(ModalType.TO)}
               >
-                {tokenToBuy && <img src={`https://zapper.fi/images/${tokenToBuy?.symbol}-icon.png`} />}
+                {tokenToBuy && (
+                  <img
+                    src={`https://zapper.fi/images/${tokenToBuy?.symbol}-icon.png`}
+                    alt={`${tokenToBuy?.symbol} Icon`}
+                  />
+                )}
                 <span>{tokenToBuy ? tokenToBuy.symbol : 'Select Token'}</span>
                 <div className="icon">
                   <div className="flex flex-center">
@@ -241,11 +246,15 @@ export const Exchange: React.FC = () => {
             <div className="exchange_route_title">Exchange Route</div>
             {exchangeSources.map((item, idx) => (
               <div className="exchange_route_item" key={`quote-source-${idx}`}>
-                {item.name !== 'MultiHop' && <img src={`https://zapper.fi/images/${item.symbol}-icon.png`} />}
+                {item.name !== 'MultiHop' && (
+                  <img src={`https://zapper.fi/images/${item.symbol}-icon.png`} alt={`${item.symbol} Icon`} />
+                )}
                 {item.name === 'MultiHop'
                   ? (item.hops || []).map(hop => (
                       <span className="exchange_route_item_hop" key={`exchange-hop-${item.name}-${hop}`}>
-                        {hop.symbol && <img src={`https://zapper.fi/images/${hop.symbol}-icon.png`} />}
+                        {hop.symbol && (
+                          <img src={`https://zapper.fi/images/${hop.symbol}-icon.png`} alt={`${hop.symbol} Icon`} />
+                        )}
                         {hop.displayName}
                       </span>
                     ))
