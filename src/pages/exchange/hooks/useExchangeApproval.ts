@@ -27,6 +27,9 @@ export const useExchangeApproval = (price?: Quote) => {
           tokenAddress: tokenToSell?.address,
           spenderAddress: price!.allowanceTarget,
         },
+        headers: {
+          'x-zapper-api-key': process.env.REACT_APP_ZAPPER_API_KEY,
+        },
       });
 
       return data;
@@ -51,6 +54,9 @@ export const useExchangeApproval = (price?: Quote) => {
         sellAmount: amountToSell,
         slippagePercentage: slippage / 100,
         gasPrice: Web3.utils.toWei(gasPrices![gasMode].toString(), 'gwei'),
+      },
+      headers: {
+        'x-zapper-api-key': process.env.REACT_APP_ZAPPER_API_KEY,
       },
     });
 

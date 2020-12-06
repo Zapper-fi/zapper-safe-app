@@ -12,14 +12,18 @@ export type ExchangeToken = {
   balanceRaw: string;
 };
 
-// @TODO would this simply be better in the backend as /v1/exchange/tokens?
 export const useExchangeTokens = () => {
   const safe = useSafe();
   const { safeAddress } = safe.info;
 
   const { data: exchangeTokens } = useQuery(['tokens', safeAddress], async () => {
     const { data } = await Axios.get<ExchangeToken[]>(`${process.env.REACT_APP_ZAPPER_API}/v1/exchange/tokens`, {
-      params: { address: safeAddress },
+      params: {
+        address: safeAddress,
+      },
+      headers: {
+        'x-zapper-api-key': process.env.REACT_APP_ZAPPER_API_KEY,
+      },
     });
     return data;
   });

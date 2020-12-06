@@ -36,6 +36,9 @@ export const useExchangePrice = () => {
           slippagePercentage: slippage / 100,
           gasPrice: Web3.utils.toWei(gasPrice.toString(), 'gwei'),
         },
+        headers: {
+          'x-zapper-api-key': process.env.REACT_APP_ZAPPER_API_KEY,
+        },
       });
 
       return data;
